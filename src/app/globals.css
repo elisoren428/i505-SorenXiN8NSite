@@ -8,10 +8,10 @@ body {
 
 @layer base {
   :root {
-    --background: 220 20% 10%; /* #14171f */
+    --background: 19 100% 4%; /* Near black */
     --foreground: 210 40% 98%;
 
-    --card: 220 20% 15%; /* #1e2129 - Slightly lighter than background */
+    --card: 220 20% 15%;
     --card-foreground: 210 40% 98%;
  
     --popover: 220 20% 7%;
@@ -34,7 +34,7 @@ body {
 
     --border: 217.2 32.6% 25.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 198 93% 72%;
+    --ring: 27 95% 58%; /* neon orange */
  
     --radius: 0.75rem;
 
@@ -46,10 +46,10 @@ body {
   }
 
   .dark {
-    --background: 220 20% 10%; /* #14171f */
+    --background: 19 100% 4%; /* Near black */
     --foreground: 210 40% 98%;
 
-    --card: 220 20% 15%; /* #1e2129 */
+    --card: 220 20% 15%;
     --card-foreground: 210 40% 98%;
  
     --popover: 220 20% 7%;
@@ -72,7 +72,7 @@ body {
 
     --border: 217.2 32.6% 25.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 198 93% 72%;
+    --ring: 27 95% 58%; /* neon orange */
  
     --radius: 0.75rem;
 
