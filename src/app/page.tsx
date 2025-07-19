@@ -31,10 +31,10 @@ const AnimatedOrb = () => (
             }
             @keyframes pulse-shadow {
               0%, 100% {
-                box-shadow: 0 0 20px rgba(27, 95%, 58%, 0.2);
+                box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
               }
               50% {
-                box-shadow: 0 0 35px rgba(27, 95%, 58%, 0.4);
+                box-shadow: 0 0 35px hsl(var(--primary) / 0.4);
               }
             }
             .alive-button {
