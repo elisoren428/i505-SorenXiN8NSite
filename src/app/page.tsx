@@ -15,11 +15,11 @@ const AnimatedOrb = () => (
           {`
             @keyframes pulse {
               0%, 100% {
-                transform: scale(0.9);
-                opacity: 0.7;
+                transform: scale(0.95);
+                opacity: 0.8;
               }
               50% {
-                transform: scale(1.1);
+                transform: scale(1.05);
                 opacity: 1;
               }
             }
@@ -66,12 +66,42 @@ export default function Home() {
             
             {/* Left Column Text */}
             <div className="text-left lg:col-span-2">
-              <h1 className="text-6xl font-bold tracking-tight text-primary sm:text-7xl font-headline">
-                Automation Suite
+              <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
+                <span className="text-primary">Automation</span>
+                <span className="text-white"> Suite</span>
               </h1>
-              <p className="mt-2 text-lg leading-8 text-gray-300">
-                Powered by N8N <span className="text-primary">With SorenXi AI</span>
-              </p>
+              <div className="mt-1 text-lg leading-8 text-gray-300 flex justify-between w-full">
+                <span>P</span>
+                <span>o</span>
+                <span>w</span>
+                <span>e</span>
+                <span>r</span>
+                <span>e</span>
+                <span>d</span>
+                <span>&nbsp;</span>
+                <span>b</span>
+                <span>y</span>
+                <span>&nbsp;</span>
+                <span>N</span>
+                <span>8</span>
+                <span>N</span>
+                <span>&nbsp;</span>
+                <span className="text-primary">W</span>
+                <span className="text-primary">i</span>
+                <span className="text-primary">t</span>
+                <span className="text-primary">h</span>
+                <span>&nbsp;</span>
+                <span className="text-primary">S</span>
+                <span className="text-primary">o</span>
+                <span className="text-primary">r</span>
+                <span className="text-primary">e</span>
+                <span className="text-primary">n</span>
+                <span className="text-primary">X</span>
+                <span className="text-primary">i</span>
+                <span>&nbsp;</span>
+                <span className="text-primary">A</span>
+                <span className="text-primary">I</span>
+              </div>
             </div>
 
             {/* Right Column Hero Card */}
