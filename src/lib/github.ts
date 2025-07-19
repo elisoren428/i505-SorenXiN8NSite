@@ -3,8 +3,8 @@ import { N8NWorkflow, GithubContent } from './types';
 
 const GITHUB_TOKEN = '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';
 const REPO_OWNER = 'sorenisanerd';
-const REPO_NAME = 'n8n-gallery';
-const WORKFLOWS_PATH = 'workflows';
+const REPO_NAME = 'n8n-workflows';
+const WORKFLOWS_PATH = ''; // Workflows are in the root
 
 const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${WORKFLOWS_PATH}`;
 
@@ -26,6 +26,11 @@ export async function getWorkflows(): Promise<GithubContent[]> {
     }
 
     const data: GithubContent[] = await response.json();
+    // Ensure data is an array before filtering
+    if (!Array.isArray(data)) {
+        console.error('Invalid data received from GitHub API, expected an array.');
+        return [];
+    }
     return data.filter(item => item.type === 'file' && item.name.endsWith('.json'));
   } catch (error) {
     console.error('Error fetching workflows:', error);
