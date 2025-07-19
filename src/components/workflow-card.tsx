@@ -13,7 +13,8 @@ interface WorkflowCardProps {
 export function WorkflowCard({ workflow }: WorkflowCardProps) {
   const workflowId = workflow.id;
   
-  const cleanTitle = workflow.name
+  const sourceTitle = workflow.name || workflow.id || 'Untitled Workflow';
+  const cleanTitle = sourceTitle
     .replace(/^\d+_/g, '') 
     .replace(/[-_]/g, ' ')
     .split(' ')
