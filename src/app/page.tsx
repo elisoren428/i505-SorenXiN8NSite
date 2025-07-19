@@ -74,15 +74,15 @@ export default function Home() {
             
             {/* Left Column Text */}
             <div className="text-left lg:col-span-2">
-              <div className="relative">
+               <div className="relative inline-block">
                 <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
                   <span className="text-primary">AUTOMATION</span>
                   <span> SUITE</span>
                 </h1>
-                <div className="absolute text-sm text-gray-300 w-full mt-2 text-right">
-                  <div className="inline-block text-right">
-                    <p className="whitespace-nowrap">Powered by N8N <span className="text-primary">With SorenXi</span></p>
-                  </div>
+                <div className="absolute w-full text-right mt-1">
+                  <p className="text-sm text-gray-300 whitespace-nowrap">
+                    Powered by N8N <span className="text-primary">With SorenXi</span>
+                  </p>
                 </div>
               </div>
             </div>
