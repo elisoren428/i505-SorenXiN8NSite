@@ -3,6 +3,23 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const revalidate = 604800; // 7 days
 
+async function getErrorFallbackImageResponse(): Promise<NextResponse> {
+    const fallbackUrl = `https://placehold.co/300x160/222222/FF8C00.png?text=Error`;
+    try {
+        const fallbackResponse = await fetch(fallbackUrl);
+        return new NextResponse(fallbackResponse.body, {
+            headers: {
+                'Content-Type': 'image/png',
+                'Cache-Control': 'public, max-age=3600, must-revalidate', // Cache error image for 1 hour
+            },
+        });
+    } catch (fetchError) {
+        // If even placeholder service is down, return a minimal response
+        return new NextResponse('Error generating image.', { status: 500 });
+    }
+}
+
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
@@ -30,6 +47,10 @@ export async function GET(
     }
 
     const base64Data = imageDataUri.split(',')[1];
+    if (!base64Data) {
+        console.error('Invalid image data URI received from generation flow.');
+        return getErrorFallbackImageResponse();
+    }
     const imageBuffer = Buffer.from(base64Data, 'base64');
     
     return new NextResponse(imageBuffer, {
@@ -40,17 +61,7 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('Failed to generate workflow image:', error);
-    // In case of error, redirect to a static placeholder
-    // This prevents broken images in the UI
-    const fallbackUrl = `https://placehold.co/300x160/222222/FF8C00.png?text=Error`;
-    const fallbackResponse = await fetch(fallbackUrl);
-    
-    return new NextResponse(fallbackResponse.body, {
-       headers: {
-          'Content-Type': 'image/png',
-          'Cache-Control': 'public, max-age=3600, must-revalidate', // Cache error image for 1 hour
-        },
-    });
+    console.error('Failed to generate workflow image for slug:', params.slug, error);
+    return getErrorFallbackImageResponse();
   }
 }
