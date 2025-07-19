@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,16 +13,41 @@ interface WorkflowCardProps {
   workflow: N8NWorkflow;
 }
 
+const fallbackImages = [
+  'https://cdn.pixabay.com/photo/2021/07/14/14/00/potato-chips-6466146_1280.jpg',
+  'https://cdn.pixabay.com/photo/2018/04/19/14/42/boeing-777-300-3333276_1280.png',
+  'https://cdn.pixabay.com/photo/2014/11/25/16/32/drop-545377_1280.jpg',
+  'https://cdn.pixabay.com/photo/2019/12/10/00/56/international-4684747_960_720.jpg',
+  'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
+  'https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg',
+  'https://images.pexels.com/photos/6153743/pexels-photo-6153743.jpeg'
+];
+
 export function WorkflowCard({ workflow }: WorkflowCardProps) {
   const workflowId = workflow.id;
-  
+
   const sourceTitle = workflow.name || workflow.id || 'Untitled Workflow';
   const cleanTitle = sourceTitle
-    .replace(/^\d+_/g, '') 
+    .replace(/^\d+_/g, '')
     .replace(/[-_]/g, ' ')
     .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+  
+  const initialImageUrl = `/api/workflow-image/${workflowId}.png?name=${encodeURIComponent(cleanTitle)}&category=${encodeURIComponent(workflow.category || 'Other')}&complexity=${encodeURIComponent(workflow.complexity || 'Unknown')}`;
+  
+  const [imageUrl, setImageUrl] = useState(initialImageUrl);
+  const [isFallback, setIsFallback] = useState(false);
+
+  const handleError = () => {
+    // To prevent an infinite loop if the fallback also fails
+    if (!isFallback) {
+        const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+        setImageUrl(fallbackImages[randomIndex]);
+        setIsFallback(true);
+    }
+  };
+
 
   const getComplexityColor = (complexity: string) => {
     switch (complexity) {
@@ -34,43 +62,52 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
     }
   };
 
-  const imageUrl = `/api/workflow-image/${workflowId}.png?name=${encodeURIComponent(cleanTitle)}&category=${encodeURIComponent(workflow.category || 'Other')}&complexity=${encodeURIComponent(workflow.complexity || 'Unknown')}`;
-
   return (
     <Card className="group flex flex-col h-full w-full max-w-[300px] mx-auto overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
-        <Link href={`/workflows/${workflowId}`} className="block">
-            <div className="relative h-40 w-full">
-                <Image
-                    src={imageUrl}
-                    alt={`${cleanTitle} workflow preview`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <Badge variant="secondary" className={`absolute top-2 right-2 ${getComplexityColor(workflow.complexity || 'Unknown')}`}>
-                    {workflow.complexity}
-                </Badge>
-            </div>
-        </Link>
-        <CardContent className="p-4 flex flex-col flex-grow">
-            <h3 className="font-headline text-xl truncate font-bold text-white">{cleanTitle}</h3>
-            <p className="text-sm text-muted-foreground h-10 overflow-hidden text-ellipsis flex-grow">
-                An n8n workflow for {workflow.category}.
-            </p>
-            <div className="mt-4 flex justify-between items-center">
-                <div className="flex gap-2 overflow-hidden">
-                    {(workflow.tags || []).slice(0, 2).map(tag => (
-                        <Badge key={tag} variant="outline" className="truncate">{tag}</Badge>
-                    ))}
-                </div>
-                <Button asChild size="sm" className="shrink-0">
-                    <Link href={`/workflows/${workflowId}`}>
-                        View <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                </Button>
-            </div>
-        </CardContent>
+      <Link href={`/workflows/${workflowId}`} className="block">
+        <div className="relative h-40 w-full">
+          <Image
+            src={imageUrl}
+            alt={`${cleanTitle} workflow preview`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+            onError={handleError}
+            unoptimized={isFallback} // Prevents Next.js from trying to optimize external fallback images
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+          <Badge
+            variant="secondary"
+            className={`absolute top-2 right-2 ${getComplexityColor(
+              workflow.complexity || 'Unknown'
+            )}`}
+          >
+            {workflow.complexity}
+          </Badge>
+        </div>
+      </Link>
+      <CardContent className="p-4 flex flex-col flex-grow">
+        <h3 className="font-headline text-xl truncate font-bold text-white">
+          {cleanTitle}
+        </h3>
+        <p className="text-sm text-muted-foreground h-10 overflow-hidden text-ellipsis flex-grow">
+          An n8n workflow for {workflow.category}.
+        </p>
+        <div className="mt-4 flex justify-between items-center">
+          <div className="flex gap-2 overflow-hidden">
+            {(workflow.tags || []).slice(0, 2).map((tag) => (
+              <Badge key={tag} variant="outline" className="truncate">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+          <Button asChild size="sm" className="shrink-0">
+            <Link href={`/workflows/${workflowId}`}>
+              View <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </CardContent>
     </Card>
   );
 }
