@@ -13,11 +13,12 @@ export function Header() {
               <h1 className="font-headline text-3xl tracking-wide text-white">
                 SORENXI N8N DIRECTORY
               </h1>
-              <span className="text-sm uppercase tracking-wider text-primary">
-                Powered by N8N With SorenXi
-              </span>
             </div>
           </Link>
+        </div>
+        <div className="flex items-center gap-4">
+            <Button variant="ghost">Sign In</Button>
+            <Button>Sign Up</Button>
         </div>
       </div>
     </header>
