@@ -11,14 +11,14 @@ export default function Home() {
           aria-hidden="true"
         >
           <div className="absolute inset-0 flex flex-col justify-between">
-            <p className="font-headline text-[20rem] font-black leading-none text-white/5">
-              N8N
+            <p className="font-headline text-[18rem] font-normal leading-none text-white/5">
+              SORENXI
             </p>
-            <p className="font-headline text-[25rem] font-black leading-none text-white/[.07]">
-              N8N
+            <p className="font-headline text-[18rem] font-normal leading-none text-white/[.07]">
+              SORENXI
             </p>
-            <p className="font-headline text-[22rem] font-black leading-none text-white/5">
-              N8N
+            <p className="font-headline text-[18rem] font-normal leading-none text-white/5">
+              SORENXI
             </p>
           </div>
         </div>
