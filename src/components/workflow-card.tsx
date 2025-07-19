@@ -34,32 +34,18 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
     }
   };
 
-  const getAiHint = (category: string) => {
-    const hints: { [key: string]: string } = {
-        'AI': 'artificial intelligence',
-        'CRM': 'customer relationship',
-        'Marketing': 'digital marketing',
-        'DevOps': 'code deployment',
-        'Data Sync & ETL': 'data pipeline',
-        'Utility': 'automation tools',
-        'Social Media': 'social network',
-        'Web Scraping': 'data extraction'
-    };
-    return hints[category] || 'automation workflow';
-  }
-
+  const imageUrl = `/api/workflow-image/${workflowId}.png?name=${encodeURIComponent(cleanTitle)}&category=${encodeURIComponent(workflow.category || 'Other')}&complexity=${encodeURIComponent(workflow.complexity || 'Unknown')}`;
 
   return (
     <Card className="group w-[300px] shrink-0 overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
         <Link href={`/workflows/${workflowId}`} className="block">
             <div className="relative h-40 w-full">
                 <Image
-                    src={`https://placehold.co/300x160.png`}
+                    src={imageUrl}
                     alt={`${cleanTitle} workflow preview`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    data-ai-hint={getAiHint(workflow.category || 'automation')}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <Badge variant="secondary" className={`absolute top-2 right-2 ${getComplexityColor(workflow.complexity || 'Unknown')}`}>
