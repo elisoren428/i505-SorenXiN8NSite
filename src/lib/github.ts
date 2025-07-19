@@ -8,6 +8,12 @@ const WORKFLOWS_PATH = 'workflows';
 
 const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${WORKFLOWS_PATH}`;
 
+export interface WorkflowStats {
+  workflowCount: number;
+  nodeCount: number;
+  integrationCount: number;
+}
+
 export async function getWorkflows(): Promise<GithubContent[]> {
   try {
     const response = await fetch(API_URL, {
@@ -26,7 +32,6 @@ export async function getWorkflows(): Promise<GithubContent[]> {
     }
 
     const data: GithubContent[] = await response.json();
-    // Ensure data is an array before filtering
     if (!Array.isArray(data)) {
         console.error('Invalid data received from GitHub API, expected an array.');
         return [];
@@ -46,11 +51,10 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
         const response = await fetch(fileUrl, {
             headers: {
                 Authorization: `Bearer ${GITHUB_TOKEN}`,
-                // Request raw content
                 Accept: 'application/vnd.github.raw',
             },
             next: {
-                revalidate: 3600, // Revalidate every hour
+                revalidate: 3600,
             },
         });
 
@@ -62,9 +66,6 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
         const fileContent = await response.text();
         const workflowData: N8NWorkflow = JSON.parse(fileContent);
         
-        // The name in the file list might be different from the one inside the JSON.
-        // Let's ensure the `name` from inside the JSON is used.
-        // We can also add the filename as an id if not present
         if (!workflowData.id) {
             workflowData.id = fileName.replace('.json', '');
         }
@@ -75,4 +76,39 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
         console.error(`Error fetching or parsing workflow ${safeFileName}:`, error);
         return null;
     }
+}
+
+export async function getWorkflowStats(): Promise<WorkflowStats> {
+  const workflowFiles = await getWorkflows();
+  const workflowCount = workflowFiles.length;
+
+  if (workflowCount === 0) {
+    return { workflowCount: 0, nodeCount: 0, integrationCount: 0 };
+  }
+
+  const workflowPromises = workflowFiles.map(file => getWorkflow(file.name));
+  const workflows = (await Promise.all(workflowPromises)).filter(Boolean) as N8NWorkflow[];
+
+  let nodeCount = 0;
+  const integrationTypes = new Set<string>();
+
+  workflows.forEach(workflow => {
+    if (workflow && Array.isArray(workflow.nodes)) {
+      nodeCount += workflow.nodes.length;
+      workflow.nodes.forEach(node => {
+        // Assuming 'n8n-nodes-base' contains core nodes that aren't "integrations"
+        if (node.type.startsWith('n8n-nodes-base.')) return;
+        
+        // Extract the base integration name (e.g., 'n8n-nodes-dall-e-image-generation' -> 'dall-e')
+        const integrationName = node.type.replace(/^n8n-nodes-/, '').split('.')[0];
+        integrationTypes.add(integrationName);
+      });
+    }
+  });
+
+  return {
+    workflowCount,
+    nodeCount,
+    integrationCount: integrationTypes.size,
+  };
 }
