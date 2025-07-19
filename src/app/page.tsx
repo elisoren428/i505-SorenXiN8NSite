@@ -6,6 +6,21 @@ import Link from 'next/link';
 
 const AnimatedOrb = () => (
   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3/5 h-[120%] flex items-center justify-center">
+    <style jsx>{`
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(0.9);
+            opacity: 0.7;
+          }
+          50% {
+            transform: scale(1.1);
+            opacity: 1;
+          }
+        }
+        .pulsing-orb {
+          animation: pulse 5s infinite ease-in-out;
+        }
+      `}</style>
     <svg viewBox="0 0 200 200" className="w-full h-full">
       <defs>
         <radialGradient id="orb-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
@@ -69,19 +84,6 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4">
        <style jsx>{`
-            @keyframes pulse {
-              0%, 100% {
-                transform: scale(0.9);
-                opacity: 0.7;
-              }
-              50% {
-                transform: scale(1.1);
-                opacity: 1;
-              }
-            }
-            .pulsing-orb {
-              animation: pulse 5s infinite ease-in-out;
-            }
             .text-3d {
               text-shadow:
                 0px 1px 0px hsl(var(--foreground) / 0.4),
