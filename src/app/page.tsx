@@ -66,33 +66,19 @@ export default function Home() {
             
             {/* Left Column Text */}
             <div className="text-left lg:col-span-2">
-              <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
-                <span className="text-primary">AUTOMATION</span>
-                <span className="text-white"> SUITE</span>
-              </h1>
-              <div className="mt-1 text-lg leading-8 text-gray-300 flex justify-between w-full">
-                {'Powered by N8N'.split('').map((char, i) => <span key={i}>{char === ' ' ? '\u00A0' : char}</span>)}
-                <span>&nbsp;</span>
-                <span className="text-primary">W</span>
-                <span className="text-primary">i</span>
-                <span className="text-primary">t</span>
-                <span className="text-primary">h</span>
-                <span>&nbsp;</span>
-                <span className="text-primary">S</span>
-                <span className="text-primary">o</span>
-                <span className="text-primary">r</span>
-                <span className="text-primary">e</span>
-                <span className="text-primary">n</span>
-                <span className="text-primary">X</span>
-                <span className="text-primary">i</span>
-                <span>&nbsp;</span>
-                <span className="text-primary">A</span>
-                <span className="text-primary">I</span>
+              <div className="inline-block">
+                <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
+                  <span className="text-primary">AUTOMATION</span>
+                  <span className="text-white"> SUITE</span>
+                </h1>
+                <div className="mt-1 text-lg leading-8 text-gray-300 flex justify-end">
+                    <p>Powered by N8N With <span className="text-primary">SorenXi</span></p>
+                </div>
               </div>
             </div>
 
             {/* Right Column Hero Card */}
-            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,_var(--tw-gradient-stops))] from-blue-600/60 via-blue-800/40 to-blue-900/90 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px] border-4 border-blue-900/80">
+            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,_var(--tw-gradient-stops))] from-blue-600/90 via-blue-800/60 to-blue-900/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px] border-4 border-blue-900/80">
               <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
