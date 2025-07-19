@@ -26,6 +26,9 @@ const categoryKeywords: { [key: string]: string[] } = {
 };
 
 function assignCategory(name: string): string {
+    if (!name || typeof name !== 'string') {
+        return 'Other';
+    }
     const lowerName = name.toLowerCase();
     for (const category in categoryKeywords) {
         if (categoryKeywords[category].some(keyword => lowerName.includes(keyword))) {
