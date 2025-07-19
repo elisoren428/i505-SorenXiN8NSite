@@ -67,24 +67,11 @@ export default function Home() {
             {/* Left Column Text */}
             <div className="text-left lg:col-span-2">
               <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
-                <span className="text-primary">Automation</span>
-                <span className="text-white"> Suite</span>
+                <span className="text-primary">AUTOMATION</span>
+                <span className="text-white"> SUITE</span>
               </h1>
               <div className="mt-1 text-lg leading-8 text-gray-300 flex justify-between w-full">
-                <span>P</span>
-                <span>o</span>
-                <span>w</span>
-                <span>e</span>
-                <span>r</span>
-                <span>e</span>
-                <span>d</span>
-                <span>&nbsp;</span>
-                <span>b</span>
-                <span>y</span>
-                <span>&nbsp;</span>
-                <span>N</span>
-                <span>8</span>
-                <span>N</span>
+                {'Powered by N8N'.split('').map((char, i) => <span key={i}>{char === ' ' ? '\u00A0' : char}</span>)}
                 <span>&nbsp;</span>
                 <span className="text-primary">W</span>
                 <span className="text-primary">i</span>
