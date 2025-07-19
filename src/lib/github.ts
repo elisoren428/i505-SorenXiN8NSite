@@ -2,9 +2,9 @@ import 'server-only';
 import { N8NWorkflow, GithubContent } from './types';
 
 const GITHUB_TOKEN = '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';
-const REPO_OWNER = 'sorenisanerd';
-const REPO_NAME = 'n8n-workflows';
-const WORKFLOWS_PATH = ''; // Workflows are in the root
+const REPO_OWNER = 'elisoren428';
+const REPO_NAME = 'n8n-WorkFlow-Directory';
+const WORKFLOWS_PATH = 'workflows';
 
 const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${WORKFLOWS_PATH}`;
 
