@@ -26,19 +26,24 @@ const AnimatedOrb = () => (
             .pulsing-orb {
               animation: pulse 5s infinite ease-in-out;
             }
-            .text-stroke {
-              text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            .text-3d {
+              text-shadow:
+                0px 1px 0px hsl(var(--foreground) / 0.1),
+                0px 2px 0px hsl(var(--foreground) / 0.1),
+                0px 3px 0px hsl(var(--foreground) / 0.1),
+                0px 4px 0px hsl(var(--foreground) / 0.1),
+                2px 4px 8px rgba(0, 0, 0, 0.5);
             }
-            @keyframes pulse-shadow {
+            @keyframes pulse-glow {
               0%, 100% {
-                box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
+                box-shadow: 0 0 10px hsl(var(--primary) / 0.2), 0 0 5px hsl(var(--primary) / 0.3);
               }
               50% {
-                box-shadow: 0 0 35px hsl(var(--primary) / 0.4);
+                box-shadow: 0 0 20px hsl(var(--primary) / 0.4), 0 0 10px hsl(var(--primary) / 0.5);
               }
             }
             .alive-button {
-              animation: pulse-shadow 4s infinite ease-in-out;
+              animation: pulse-glow 3s infinite ease-in-out;
             }
           `}
         </style>
@@ -80,19 +85,22 @@ export default function Home() {
             
             {/* Left Column Text */}
             <div className="text-left lg:col-span-2">
-              <div className="inline-block relative">
+              <div className="relative">
                 <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
                   <span className="text-primary">AUTOMATION</span>
-                  <span className="text-white"> SUITE</span>
+                  <span> SUITE</span>
                 </h1>
-                <div className="absolute right-0 mt-1 text-sm text-gray-300 w-auto">
-                    <p className="text-right whitespace-nowrap">Powered by N8N With <span className="text-primary">SorenXi</span></p>
+                <div className="absolute text-sm text-gray-300 w-full mt-2 text-right">
+                  <div className="inline-block text-right">
+                    <p className="whitespace-nowrap">Powered by N8N <span className="text-primary">With SorenXi</span></p>
+                  </div>
                 </div>
               </div>
             </div>
 
+
             {/* Right Column Hero Card */}
-            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px] border-4 border-blue-950/90">
+            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px] border-4 border-blue-950">
               <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
@@ -102,7 +110,7 @@ export default function Home() {
               <div className="relative h-full flex items-center p-8 sm:p-10">
                 <div className="w-1/2 z-10">
                   <p className="font-bold text-sm text-white/80 uppercase tracking-widest">SorenXi</p>
-                  <h2 className="mt-2 font-headline text-7xl sm:text-8xl font-bold text-white text-stroke">N8N</h2>
+                  <h2 className="mt-2 font-headline text-7xl sm:text-8xl font-bold text-white text-3d">N8N</h2>
                   <p className="mt-4 text-white/90 text-base max-w-sm">
                     n8n work flow directory with hundreds of collected n8n workflows from many developers around the globe. why reinvent the wheel when you can just modify it.
                   </p>
