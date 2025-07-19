@@ -10,7 +10,7 @@ export default function Home() {
           className="absolute inset-0 -z-10 h-full w-full overflow-hidden"
           aria-hidden="true"
         >
-          <div className="absolute inset-0 flex flex-col justify-around -space-y-32">
+          <div className="absolute inset-0 flex flex-col justify-around">
             <p className="font-headline text-[18rem] font-normal leading-none text-white/5">
               SORENXI
             </p>
