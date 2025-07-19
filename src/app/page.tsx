@@ -7,10 +7,10 @@ export default function Home() {
     <div className="container mx-auto px-4">
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
-          className="absolute inset-0 -z-10 flex h-full w-full items-center overflow-hidden"
+          className="absolute inset-0 -z-10 flex items-center overflow-hidden"
           aria-hidden="true"
         >
-          <div className="flex flex-col">
+          <div className="flex w-full flex-col">
             <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
               SORENXI
             </p>
