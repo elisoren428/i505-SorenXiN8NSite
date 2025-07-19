@@ -66,10 +66,10 @@ export default function Home() {
             
             {/* Left Column Text */}
             <div className="text-left lg:col-span-2">
-              <h1 className="text-6xl font-bold tracking-tight text-white sm:text-7xl font-headline">
+              <h1 className="text-6xl font-bold tracking-tight text-primary sm:text-7xl font-headline">
                 Automation Suite
               </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-300">
+              <p className="mt-2 text-lg leading-8 text-gray-300">
                 Powered by N8N <span className="text-primary">With SorenXi AI</span>
               </p>
             </div>
