@@ -43,7 +43,7 @@ export default function Home() {
             </div>
 
             {/* Right Column Hero Card */}
-            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#1e40af] via-[#1d4ed8] to-[#2563eb] p-1 shadow-2xl shadow-blue-500/20">
+            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/80 via-blue-800/90 to-blue-900/95 p-1 shadow-2xl shadow-blue-500/20">
                <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
@@ -76,7 +76,7 @@ export default function Home() {
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-700/50 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-800/60 to-transparent"></div>
                 </div>
               </div>
             </div>
