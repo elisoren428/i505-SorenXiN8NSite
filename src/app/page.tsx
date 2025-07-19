@@ -10,17 +10,17 @@ export default function Home() {
           className="absolute inset-0 -z-10 flex h-full w-full items-center overflow-hidden"
           aria-hidden="true"
         >
-          <div className="flex flex-col gap-y-8">
-            <p className="font-headline text-[18rem] font-normal leading-none text-white/5">
+          <div className="flex flex-col">
+            <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
               SORENXI
             </p>
-            <p className="font-headline text-[18rem] font-normal leading-none text-white/[.07]">
+            <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/[.07]">
               SORENXI
             </p>
-            <p className="font-headline text-[18rem] font-normal leading-none text-white/5">
+            <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
               SORENXI
             </p>
-             <p className="font-headline text-[18rem] font-normal leading-none text-white/5">
+             <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
               SORENXI
             </p>
           </div>
