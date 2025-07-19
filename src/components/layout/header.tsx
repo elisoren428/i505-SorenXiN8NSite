@@ -1,25 +1,23 @@
 import Link from 'next/link';
-import { BotMessageSquare, ArrowRight } from 'lucide-react';
+import { BotMessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
-        <div className="mr-4 flex flex-1 items-center">
-          <Link href="/" className="mr-6 flex items-center space-x-3">
-            <BotMessageSquare className="h-6 w-6 text-primary" />
-            <span className="font-headline text-lg font-bold tracking-wide sm:inline-block">
-              SorenXi N8N Directory
-            </span>
+      <div className="container flex h-24 max-w-screen-2xl items-center">
+        <div className="flex flex-1 items-center">
+          <Link href="/" className="flex items-center gap-4">
+            <BotMessageSquare className="h-10 w-10 text-primary" />
+            <div className="flex flex-col">
+              <h1 className="font-headline text-3xl tracking-wide text-white">
+                SORENXI N8N DIRECTORY
+              </h1>
+              <span className="text-sm uppercase tracking-wider text-primary">
+                Powered by N8N With SorenXi
+              </span>
+            </div>
           </Link>
-        </div>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost">Login</Button>
-          <Button>
-            Sign Up
-            <ArrowRight className="ml-2" />
-          </Button>
         </div>
       </div>
     </header>
