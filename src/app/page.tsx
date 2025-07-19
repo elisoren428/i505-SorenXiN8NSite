@@ -75,7 +75,7 @@ export default function Home() {
             </div>
 
             {/* Right Column Hero Card */}
-            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_70%_at_50%_50%,_var(--tw-gradient-stops))] from-blue-600/50 via-blue-800/80 to-blue-900/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px]">
+            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,_var(--tw-gradient-stops))] from-blue-600/50 via-blue-800/20 to-blue-900/80 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px]">
               <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
