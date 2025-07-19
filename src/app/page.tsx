@@ -7,7 +7,7 @@ export default function Home() {
     <div className="container mx-auto px-4">
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center -z-20">
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center -z-10">
             <p
               className="font-headline text-[25rem] font-black text-white/5"
               aria-hidden="true"
