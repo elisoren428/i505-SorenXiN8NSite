@@ -19,7 +19,7 @@ export default function Home() {
             <h1 className="font-headline text-6xl font-bold tracking-tight text-white sm:text-8xl">
               SorenXi N8N Directory
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
+            <p className="mt-6 text-lg leading-8 text-gray-200">
               Discover, enhance, and deploy powerful n8n workflows. Leverage AI to optimize your automation and unlock new levels of efficiency.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
