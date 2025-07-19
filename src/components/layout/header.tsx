@@ -7,9 +7,9 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 flex flex-1 items-center">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
+          <Link href="/" className="mr-6 flex items-center space-x-3">
             <BotMessageSquare className="h-6 w-6 text-primary" />
-            <span className="font-bold font-headline text-lg sm:inline-block">
+            <span className="font-headline text-lg font-bold tracking-wide sm:inline-block">
               SorenXi N8N Directory
             </span>
           </Link>
