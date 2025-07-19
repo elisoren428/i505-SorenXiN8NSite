@@ -3,116 +3,112 @@
 import * as React from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button';
+import type { VariantProps } from 'class-variance-authority';
+import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 
-// NOTE: ShadCN does not have a Pagination component by default.
-// This is a custom implementation following shadcn's style.
-// The base shadcn-like components are defined here.
-
-const ShadcnPagination = ({
-  className,
-  ...props
-}: React.ComponentProps<'nav'>) => (
+const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
     role="navigation"
     aria-label="pagination"
-    className={className}
+    className={cn('mx-auto flex w-full justify-center', className)}
     {...props}
   />
 );
+Pagination.displayName = 'Pagination';
 
-const ShadcnPaginationContent = React.forwardRef<
+const PaginationContent = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<'ul'>
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className="flex flex-row items-center justify-center gap-1"
+    className={cn('flex flex-row items-center gap-1', className)}
     {...props}
   />
 ));
-ShadcnPaginationContent.displayName = 'PaginationContent';
+PaginationContent.displayName = 'PaginationContent';
 
-const ShadcnPaginationItem = React.forwardRef<
+const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<'li'>
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={className} {...props} />
+  <li ref={ref} className={cn('', className)} {...props} />
 ));
-ShadcnPaginationItem.displayName = 'PaginationItem';
+PaginationItem.displayName = 'PaginationItem';
 
-type ShadcnPaginationLinkProps = {
+type PaginationLinkProps = {
   isActive?: boolean;
-} & React.ComponentProps<typeof Link>;
+} & Pick<VariantProps<typeof buttonVariants>, 'size'> &
+  React.ComponentProps<typeof Link>;
 
-const ShadcnPaginationLink = ({
+const PaginationLink = ({
   className,
   isActive,
+  size = 'icon',
   ...props
-}: ShadcnPaginationLinkProps) => (
+}: PaginationLinkProps) => (
   <Link
     aria-current={isActive ? 'page' : undefined}
-    className={`flex items-center justify-center rounded-md px-3 h-9 text-sm font-medium transition-colors ${
-      isActive
-        ? 'bg-primary text-primary-foreground'
-        : 'hover:bg-accent hover:text-accent-foreground'
-    } ${className}`}
+    className={cn(
+      buttonVariants({
+        variant: isActive ? 'outline' : 'ghost',
+        size,
+      }),
+      className
+    )}
     {...props}
   />
 );
-ShadcnPaginationLink.displayName = 'PaginationLink';
+PaginationLink.displayName = 'PaginationLink';
 
-const ShadcnPaginationPrevious = ({
+const PaginationPrevious = ({
   className,
   ...props
-}: React.ComponentProps<typeof ShadcnPaginationLink>) => (
-  <ShadcnPaginationLink
+}: React.ComponentProps<typeof PaginationLink>) => (
+  <PaginationLink
     aria-label="Go to previous page"
-    className={`gap-1 pl-2.5 ${className}`}
+    size="default"
+    className={cn('gap-1 pl-2.5', className)}
     {...props}
   >
+    <ChevronLeft className="h-4 w-4" />
     <span>Previous</span>
-  </ShadcnPaginationLink>
+  </PaginationLink>
 );
-ShadcnPaginationPrevious.displayName = 'PaginationPrevious';
+PaginationPrevious.displayName = 'PaginationPrevious';
 
-const ShadcnPaginationNext = ({
+const PaginationNext = ({
   className,
   ...props
-}: React.ComponentProps<typeof ShadcnPaginationLink>) => (
-  <ShadcnPaginationLink
+}: React.ComponentProps<typeof PaginationLink>) => (
+  <PaginationLink
     aria-label="Go to next page"
-    className={`gap-1 pr-2.5 ${className}`}
+    size="default"
+    className={cn('gap-1 pr-2.5', className)}
     {...props}
   >
     <span>Next</span>
-  </ShadcnPaginationLink>
+    <ChevronRight className="h-4 w-4" />
+  </PaginationLink>
 );
-ShadcnPaginationNext.displayName = 'PaginationNext';
+PaginationNext.displayName = 'PaginationNext';
 
-const ShadcnPaginationEllipsis = ({
+const PaginationEllipsis = ({
   className,
   ...props
 }: React.ComponentProps<'span'>) => (
   <span
     aria-hidden
-    className={`flex h-9 w-9 items-center justify-center ${className}`}
+    className={cn('flex h-9 w-9 items-center justify-center', className)}
     {...props}
   >
-    ...
+    <MoreHorizontal className="h-4 w-4" />
+    <span className="sr-only">More pages</span>
   </span>
 );
-ShadcnPaginationEllipsis.displayName = 'PaginationEllipsis';
-
-
-export {
-    ShadcnPagination as Pagination,
-    ShadcnPaginationContent as PaginationContent,
-    ShadcnPaginationItem as PaginationItem,
-    ShadcnPaginationLink as PaginationLink,
-    ShadcnPaginationNext as PaginationNext,
-    ShadcnPaginationPrevious as PaginationPrevious,
-    ShadcnPaginationEllipsis as PaginationEllipsis
-}
+PaginationEllipsis.displayName = 'PaginationEllipsis';
 
 
 export function PaginationComponent({ totalPages }: { totalPages: number }) {
@@ -126,34 +122,58 @@ export function PaginationComponent({ totalPages }: { totalPages: number }) {
     return `${pathname}?${params.toString()}`;
   };
 
+  const getPaginationItems = () => {
+    const items = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(i);
+      }
+    } else {
+      items.push(1);
+      if (currentPage > 2) {
+        items.push('...');
+      }
+      if (currentPage > 1 && currentPage < totalPages) {
+        items.push(currentPage);
+      }
+      if (currentPage < totalPages - 1) {
+        items.push('...');
+      }
+      items.push(totalPages);
+    }
+    return items;
+  };
+
   return (
-    <ShadcnPagination>
-      <ShadcnPaginationContent>
-        <ShadcnPaginationItem>
-          <ShadcnPaginationPrevious
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
             href={createPageURL(currentPage - 1)}
-            aria-disabled={currentPage <= 1}
             style={{ pointerEvents: currentPage <= 1 ? 'none' : 'auto', opacity: currentPage <= 1 ? 0.5 : 1}}
           />
-        </ShadcnPaginationItem>
-        {[...Array(totalPages)].map((_, i) => (
-          <ShadcnPaginationItem key={i}>
-            <ShadcnPaginationLink
-              href={createPageURL(i + 1)}
-              isActive={currentPage === i + 1}
-            >
-              {i + 1}
-            </ShadcnPaginationLink>
-          </ShadcnPaginationItem>
+        </PaginationItem>
+        {getPaginationItems().map((item, index) => (
+          <PaginationItem key={`${item}-${index}`}>
+            {typeof item === 'number' ? (
+              <PaginationLink
+                href={createPageURL(item)}
+                isActive={currentPage === item}
+              >
+                {item}
+              </PaginationLink>
+            ) : (
+              <PaginationEllipsis />
+            )}
+          </PaginationItem>
         ))}
-        <ShadcnPaginationItem>
-          <ShadcnPaginationNext
+        <PaginationItem>
+          <PaginationNext
             href={createPageURL(currentPage + 1)}
-            aria-disabled={currentPage >= totalPages}
             style={{ pointerEvents: currentPage >= totalPages ? 'none' : 'auto', opacity: currentPage >= totalPages ? 0.5 : 1}}
           />
-        </ShadcnPaginationItem>
-      </ShadcnPaginationContent>
-    </ShadcnPagination>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 }

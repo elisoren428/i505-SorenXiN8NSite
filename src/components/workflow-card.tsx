@@ -37,7 +37,7 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
   const imageUrl = `/api/workflow-image/${workflowId}.png?name=${encodeURIComponent(cleanTitle)}&category=${encodeURIComponent(workflow.category || 'Other')}&complexity=${encodeURIComponent(workflow.complexity || 'Unknown')}`;
 
   return (
-    <Card className="group w-[300px] shrink-0 overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
+    <Card className="group flex flex-col h-full w-full max-w-[300px] mx-auto overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
         <Link href={`/workflows/${workflowId}`} className="block">
             <div className="relative h-40 w-full">
                 <Image
@@ -53,18 +53,18 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
                 </Badge>
             </div>
         </Link>
-        <CardContent className="p-4">
+        <CardContent className="p-4 flex flex-col flex-grow">
             <h3 className="font-headline text-xl truncate font-bold text-white">{cleanTitle}</h3>
-            <p className="text-sm text-muted-foreground h-10 overflow-hidden text-ellipsis">
+            <p className="text-sm text-muted-foreground h-10 overflow-hidden text-ellipsis flex-grow">
                 An n8n workflow for {workflow.category}.
             </p>
             <div className="mt-4 flex justify-between items-center">
-                <div className="flex gap-2">
+                <div className="flex gap-2 overflow-hidden">
                     {(workflow.tags || []).slice(0, 2).map(tag => (
-                        <Badge key={tag} variant="outline">{tag}</Badge>
+                        <Badge key={tag} variant="outline" className="truncate">{tag}</Badge>
                     ))}
                 </div>
-                <Button asChild size="sm">
+                <Button asChild size="sm" className="shrink-0">
                     <Link href={`/workflows/${workflowId}`}>
                         View <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
