@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { BotMessageSquare, Zap, Workflow, Puzzle } from 'lucide-react';
+import { BotMessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { HeaderStats } from './header-stats';
+import { HeaderNav } from './header-nav';
 
 export function Header() {
   return (
@@ -10,14 +11,15 @@ export function Header() {
       <div className="container flex h-24 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-4">
-            <BotMessageSquare className="h-10 w-10 text-primary" />
-            <h1 className="font-sans text-2xl font-bold tracking-wide text-white">
+            <BotMessageSquare className="h-8 w-8 text-primary" />
+            <h1 className="font-sans text-xl font-bold tracking-wide text-white">
               SORENXI N8N DIRECTORY
             </h1>
           </Link>
           <Separator orientation="vertical" className="h-8" />
           <HeaderStats />
         </div>
+        <HeaderNav />
         <div className="flex items-center gap-4">
             <Button variant="ghost">Sign In</Button>
             <Button>Sign Up</Button>
