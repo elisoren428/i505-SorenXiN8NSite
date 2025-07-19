@@ -30,10 +30,10 @@ export default function Home() {
       {/* New Foreground Content */}
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-full py-16 sm:py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-center">
             
             {/* Left Column Text */}
-            <div className="text-left">
+            <div className="text-left lg:col-span-2">
               <h1 className="text-6xl font-bold tracking-tight text-white sm:text-7xl font-headline">
                 Automation Suite
               </h1>
@@ -43,7 +43,7 @@ export default function Home() {
             </div>
 
             {/* Right Column Hero Card */}
-            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/80 via-blue-800/90 to-blue-900/95 p-1 shadow-2xl shadow-blue-500/20">
+            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/80 via-blue-800/90 to-blue-900/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3">
                <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
