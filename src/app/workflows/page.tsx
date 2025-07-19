@@ -1,32 +1,34 @@
 import { getWorkflows } from '@/lib/github';
-import { WorkflowCard } from '@/components/workflow-card';
-import { PaginationComponent } from '@/components/ui/pagination';
-import type { GithubContent } from '@/lib/types';
+import type { N8NWorkflow } from '@/lib/types';
+import { WorkflowCarousel } from '@/components/workflow-carousel';
 
-const ITEMS_PER_PAGE_LG = 4;
-const ITEMS_PER_PAGE_SM = 6;
+export const revalidate = 3600; // Revalidate every hour
 
+const complexityLevels = ['Beginner', 'Intermediate', 'Advanced'];
+const useCaseCategories = [
+    'AI',
+    'CRM',
+    'Marketing',
+    'DevOps',
+    'Data Sync & ETL',
+    'Utility',
+    'Social Media',
+    'Web Scraping',
+    'Other'
+];
 
-export default async function WorkflowsPage({
-  searchParams,
-}: {
-  searchParams?: {
-    page?: string;
-    show?:string;
-  };
-}) {
+export default async function WorkflowsPage() {
   const allWorkflows = await getWorkflows();
-  const currentPage = Number(searchParams?.page) || 1;
-  // This logic is a bit flawed as it doesn't know the screen size on the server.
-  // For a truly responsive item count, a client-side solution would be better,
-  // but for this project we'll use a single value.
-  const itemsPerPage = Number(searchParams?.show) || ITEMS_PER_PAGE_LG;
-  const totalPages = Math.ceil(allWorkflows.length / itemsPerPage);
 
-  const paginatedWorkflows = allWorkflows.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const workflowsByComplexity = complexityLevels.map(level => ({
+    title: `${level} Workflows`,
+    workflows: allWorkflows.filter(wf => wf.complexity === level),
+  }));
+
+  const workflowsByCategory = useCaseCategories.map(category => ({
+    title: category === 'Data Sync & ETL' ? category : `${category} Workflows`,
+    workflows: allWorkflows.filter(wf => wf.category === category),
+  }));
 
   return (
     <div className="space-y-12">
@@ -39,16 +41,16 @@ export default async function WorkflowsPage({
         </p>
       </div>
 
-      {paginatedWorkflows.length > 0 ? (
-        <>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {paginatedWorkflows.map((workflow: GithubContent) => (
-              <WorkflowCard key={workflow.sha} workflow={workflow} />
-            ))}
-          </div>
-          <PaginationComponent totalPages={totalPages} />
-        </>
-      ) : (
+      <div className="flex flex-col gap-12">
+        {workflowsByComplexity.map(({ title, workflows }) => 
+            workflows.length > 0 && <WorkflowCarousel key={title} title={title} workflows={workflows} />
+        )}
+        {workflowsByCategory.map(({ title, workflows }) => 
+            workflows.length > 0 && <WorkflowCarousel key={title} title={title} workflows={workflows} />
+        )}
+      </div>
+
+      {allWorkflows.length === 0 && (
         <div className="text-center py-16">
           <p className="text-xl text-muted-foreground">No workflows found.</p>
         </div>

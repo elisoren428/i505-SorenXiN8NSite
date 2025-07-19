@@ -17,7 +17,9 @@ export interface N8NWorkflow {
   id: string;
   active: boolean;
   settings: Record<string, any>;
-  tags: any[];
+  tags: string[];
+  complexity?: string;
+  category?: string;
 }
 
 

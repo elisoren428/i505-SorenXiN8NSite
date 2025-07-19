@@ -1,56 +1,89 @@
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Image from 'next/image';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BotMessageSquare, Copy, Pencil } from 'lucide-react';
-import type { GithubContent } from '@/lib/types';
+import { Badge } from '@/components/ui/badge';
+import type { N8NWorkflow } from '@/lib/types';
+import { ArrowRight } from 'lucide-react';
 
 interface WorkflowCardProps {
-  workflow: GithubContent;
+  workflow: N8NWorkflow;
 }
 
 export function WorkflowCard({ workflow }: WorkflowCardProps) {
-  const workflowId = workflow.name.replace('.json', '');
+  const workflowId = workflow.id;
   
-  const cleanTitle = workflowId
+  const cleanTitle = workflow.name
     .replace(/^\d+_/g, '') 
     .replace(/[-_]/g, ' ')
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
-  
-  const description = `An n8n workflow for automating tasks related to ${cleanTitle.split(' ')[0]}.`;
+
+  const getComplexityColor = (complexity: string) => {
+    switch (complexity) {
+      case 'Beginner':
+        return 'bg-green-500 hover:bg-green-600';
+      case 'Intermediate':
+        return 'bg-yellow-500 hover:bg-yellow-600';
+      case 'Advanced':
+        return 'bg-red-500 hover:bg-red-600';
+      default:
+        return 'bg-gray-500 hover:bg-gray-600';
+    }
+  };
+
+  const getAiHint = (category: string) => {
+    const hints: { [key: string]: string } = {
+        'AI': 'artificial intelligence',
+        'CRM': 'customer relationship',
+        'Marketing': 'digital marketing',
+        'DevOps': 'code deployment',
+        'Data Sync & ETL': 'data pipeline',
+        'Utility': 'automation tools',
+        'Social Media': 'social network',
+        'Web Scraping': 'data extraction'
+    };
+    return hints[category] || 'automation workflow';
+  }
+
 
   return (
-    <Card className="flex flex-col bg-card/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 ease-in-out hover:border-primary/30 hover:scale-[1.03] group will-change-transform">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      <CardHeader>
-        <div className="flex items-start gap-4">
-            <div className="p-2 bg-accent/10 border border-accent/20 rounded-lg">
-                <BotMessageSquare className="h-6 w-6 text-accent flex-shrink-0" />
+    <Card className="group w-[300px] shrink-0 overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
+        <Link href={`/workflows/${workflowId}`} className="block">
+            <div className="relative h-40 w-full">
+                <Image
+                    src={`https://placehold.co/300x160.png`}
+                    alt={`${cleanTitle} workflow preview`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-ai-hint={getAiHint(workflow.category || 'automation')}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                <Badge variant="secondary" className={`absolute top-2 right-2 ${getComplexityColor(workflow.complexity || 'Unknown')}`}>
+                    {workflow.complexity}
+                </Badge>
             </div>
-            <div className="flex flex-col">
-              <CardTitle className="font-headline text-2xl tracking-wide leading-tight text-white">{cleanTitle}</CardTitle>
-              <CardDescription className="pt-2 text-gray-400">{description}</CardDescription>
+        </Link>
+        <CardContent className="p-4">
+            <h3 className="font-headline text-xl truncate font-bold text-white">{cleanTitle}</h3>
+            <p className="text-sm text-muted-foreground h-10 overflow-hidden text-ellipsis">
+                An n8n workflow for {workflow.category}.
+            </p>
+            <div className="mt-4 flex justify-between items-center">
+                <div className="flex gap-2">
+                    {(workflow.tags || []).slice(0, 2).map(tag => (
+                        <Badge key={tag} variant="outline">{tag}</Badge>
+                    ))}
+                </div>
+                <Button asChild size="sm">
+                    <Link href={`/workflows/${workflowId}`}>
+                        View <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                </Button>
             </div>
-        </div>
-      </CardHeader>
-      <CardContent className="flex-grow"></CardContent>
-      <CardFooter className="flex justify-between items-center bg-black/20 p-4 mt-auto">
-        <div className="flex gap-1">
-            <Button variant="ghost" size="icon" disabled>
-                <Pencil className="h-4 w-4 text-gray-500" />
-            </Button>
-            <Button variant="ghost" size="icon" disabled>
-                <Copy className="h-4 w-4 text-gray-500" />
-            </Button>
-        </div>
-        <Button asChild className="font-bold">
-          <Link href={`/workflows/${workflowId}`}>
-            Open
-            <ArrowRight className="ml-2" />
-          </Link>
-        </Button>
-      </CardFooter>
+        </CardContent>
     </Card>
   );
 }

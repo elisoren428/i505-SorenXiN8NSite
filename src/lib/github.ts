@@ -14,7 +14,35 @@ export interface WorkflowStats {
   integrationCount: number;
 }
 
-export async function getWorkflows(): Promise<GithubContent[]> {
+const categoryKeywords: { [key: string]: string[] } = {
+    'AI': ['ai', 'openai', 'gemini', 'dall-e', 'llm'],
+    'CRM': ['crm', 'salesforce', 'hubspot', 'contact'],
+    'Marketing': ['marketing', 'seo', 'ad'],
+    'DevOps': ['devops', 'git', 'docker', 'deploy'],
+    'Data Sync & ETL': ['etl', 'sync', 'database', 'airtable', 'sheets', 'google-sheets'],
+    'Utility': ['util', 'tool', 'helper'],
+    'Social Media': ['social', 'twitter', 'linkedin', 'facebook', 'instagram', 'telegram'],
+    'Web Scraping': ['scrape', 'crawl', 'webhook'],
+};
+
+function assignCategory(name: string): string {
+    const lowerName = name.toLowerCase();
+    for (const category in categoryKeywords) {
+        if (categoryKeywords[category].some(keyword => lowerName.includes(keyword))) {
+            return category;
+        }
+    }
+    return 'Other';
+}
+
+function assignComplexity(nodeCount: number): string {
+    if (nodeCount <= 5) return 'Beginner';
+    if (nodeCount <= 15) return 'Intermediate';
+    return 'Advanced';
+}
+
+
+export async function getWorkflows(): Promise<N8NWorkflow[]> {
   try {
     const response = await fetch(API_URL, {
       headers: {
@@ -31,12 +59,19 @@ export async function getWorkflows(): Promise<GithubContent[]> {
       return [];
     }
 
-    const data: GithubContent[] = await response.json();
-    if (!Array.isArray(data)) {
+    const contents: GithubContent[] = await response.json();
+    if (!Array.isArray(contents)) {
         console.error('Invalid data received from GitHub API, expected an array.');
         return [];
     }
-    return data.filter(item => item.type === 'file' && item.name.endsWith('.json'));
+
+    const workflowFiles = contents.filter(item => item.type === 'file' && item.name.endsWith('.json'));
+
+    const workflowPromises = workflowFiles.map(file => getWorkflow(file.name.replace('.json', '')));
+    const workflows = (await Promise.all(workflowPromises)).filter((p): p is N8NWorkflow => p !== null);
+    
+    return workflows;
+
   } catch (error) {
     console.error('Error fetching workflows:', error);
     return [];
@@ -66,9 +101,13 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
         const fileContent = await response.text();
         const workflowData: N8NWorkflow = JSON.parse(fileContent);
         
-        if (!workflowData.id) {
-            workflowData.id = fileName.replace('.json', '');
-        }
+        workflowData.id = fileName.replace('.json', '');
+        workflowData.complexity = assignComplexity(workflowData.nodes.length);
+        workflowData.category = assignCategory(workflowData.name);
+        
+        // Simple tag extraction from node types
+        workflowData.tags = [...new Set(workflowData.nodes.map(node => node.type.split('.').pop()?.replace(/([A-Z])/g, ' $1').trim().split(' ')[0]))].slice(0,3);
+
 
         return workflowData;
 
@@ -79,16 +118,14 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
 }
 
 export async function getWorkflowStats(): Promise<WorkflowStats> {
-  const workflowFiles = await getWorkflows();
-  const workflowCount = workflowFiles.length;
+  // This function now relies on the enriched getWorkflows()
+  const workflows = await getWorkflows();
+  const workflowCount = workflows.length;
 
   if (workflowCount === 0) {
     return { workflowCount: 0, nodeCount: 0, integrationCount: 0 };
   }
-
-  const workflowPromises = workflowFiles.map(file => getWorkflow(file.name));
-  const workflows = (await Promise.all(workflowPromises)).filter(Boolean) as N8NWorkflow[];
-
+  
   let nodeCount = 0;
   const integrationTypes = new Set<string>();
 
@@ -96,10 +133,8 @@ export async function getWorkflowStats(): Promise<WorkflowStats> {
     if (workflow && Array.isArray(workflow.nodes)) {
       nodeCount += workflow.nodes.length;
       workflow.nodes.forEach(node => {
-        // Assuming 'n8n-nodes-base' contains core nodes that aren't "integrations"
         if (node.type.startsWith('n8n-nodes-base.')) return;
         
-        // Extract the base integration name (e.g., 'n8n-nodes-dall-e-image-generation' -> 'dall-e')
         const integrationName = node.type.replace(/^n8n-nodes-/, '').split('.')[0];
         integrationTypes.add(integrationName);
       });
