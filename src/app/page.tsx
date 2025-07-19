@@ -7,20 +7,20 @@ export default function Home() {
     <div className="container mx-auto px-4">
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
-          className="absolute inset-x-0 top-0 -z-10 flex h-full flex-col justify-start overflow-hidden pt-12"
+          className="absolute inset-x-0 top-0 -z-10 flex h-full flex-col justify-start overflow-hidden"
           aria-hidden="true"
         >
           <div className="flex flex-col" style={{ lineHeight: '0.7' }}>
             <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
               SORENXI
             </p>
-            <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/[.15]">
+            <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/[.20]">
               SORENXI
             </p>
             <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
               SORENXI
             </p>
-             <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
+            <p className="font-headline text-[18rem] font-normal leading-[0.8] text-white/5">
               SORENXI
             </p>
           </div>
