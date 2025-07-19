@@ -8,14 +8,14 @@ export default function Home() {
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
           <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-            <p className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 font-headline text-[20rem] font-black text-white/5">
-              SORENXI
+            <p className="absolute top-[5%] left-0 -translate-x-1/4 font-headline text-[20rem] font-black text-white/5">
+              N8N
             </p>
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/3 -translate-y-1/2 font-headline text-[25rem] font-black text-white/5">
-              SORENXI
+            <p className="absolute top-1/2 left-0 -translate-x-1/3 -translate-y-1/2 font-headline text-[25rem] font-black text-white/[.07]">
+              N8N
             </p>
-             <p className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 font-headline text-[22rem] font-black text-white/5">
-              SORENXI
+             <p className="absolute bottom-[5%] left-0 -translate-x-1/2 font-headline text-[22rem] font-black text-white/5">
+              N8N
             </p>
           </div>
           <div className="text-center">
