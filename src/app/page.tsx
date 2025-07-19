@@ -15,16 +15,16 @@ const AnimatedOrb = () => (
           {`
             @keyframes pulse {
               0%, 100% {
-                transform: scale(0.95);
-                opacity: 0.9;
+                transform: scale(0.9);
+                opacity: 0.7;
               }
               50% {
-                transform: scale(1.05);
+                transform: scale(1.1);
                 opacity: 1;
               }
             }
             .pulsing-orb {
-              animation: pulse 6s infinite ease-in-out;
+              animation: pulse 5s infinite ease-in-out;
             }
           `}
         </style>
