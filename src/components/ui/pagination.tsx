@@ -1,20 +1,12 @@
 'use client';
 
+import * as React from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/shadcn-pagination'; // Assuming shadcn has a pagination component like this. If not, this is what it would look like.
 
 // NOTE: ShadCN does not have a Pagination component by default.
 // This is a custom implementation following shadcn's style.
-// Let's create the base shadcn-like components here as well.
+// The base shadcn-like components are defined here.
 
 const ShadcnPagination = ({
   className,
@@ -135,33 +127,33 @@ export function PaginationComponent({ totalPages }: { totalPages: number }) {
   };
 
   return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
+    <ShadcnPagination>
+      <ShadcnPaginationContent>
+        <ShadcnPaginationItem>
+          <ShadcnPaginationPrevious
             href={createPageURL(currentPage - 1)}
             aria-disabled={currentPage <= 1}
             style={{ pointerEvents: currentPage <= 1 ? 'none' : 'auto', opacity: currentPage <= 1 ? 0.5 : 1}}
           />
-        </PaginationItem>
+        </ShadcnPaginationItem>
         {[...Array(totalPages)].map((_, i) => (
-          <PaginationItem key={i}>
-            <PaginationLink
+          <ShadcnPaginationItem key={i}>
+            <ShadcnPaginationLink
               href={createPageURL(i + 1)}
               isActive={currentPage === i + 1}
             >
               {i + 1}
-            </PaginationLink>
-          </PaginationItem>
+            </ShadcnPaginationLink>
+          </ShadcnPaginationItem>
         ))}
-        <PaginationItem>
-          <PaginationNext
+        <ShadcnPaginationItem>
+          <ShadcnPaginationNext
             href={createPageURL(currentPage + 1)}
             aria-disabled={currentPage >= totalPages}
             style={{ pointerEvents: currentPage >= totalPages ? 'none' : 'auto', opacity: currentPage >= totalPages ? 0.5 : 1}}
           />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+        </ShadcnPaginationItem>
+      </ShadcnPaginationContent>
+    </ShadcnPagination>
   );
 }
