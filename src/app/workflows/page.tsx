@@ -3,22 +3,29 @@ import { WorkflowCard } from '@/components/workflow-card';
 import { PaginationComponent } from '@/components/ui/pagination';
 import type { GithubContent } from '@/lib/types';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE_LG = 4;
+const ITEMS_PER_PAGE_SM = 6;
+
 
 export default async function WorkflowsPage({
   searchParams,
 }: {
   searchParams?: {
     page?: string;
+    show?:string;
   };
 }) {
   const allWorkflows = await getWorkflows();
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = Math.ceil(allWorkflows.length / ITEMS_PER_PAGE);
+  // This logic is a bit flawed as it doesn't know the screen size on the server.
+  // For a truly responsive item count, a client-side solution would be better,
+  // but for this project we'll use a single value.
+  const itemsPerPage = Number(searchParams?.show) || ITEMS_PER_PAGE_LG;
+  const totalPages = Math.ceil(allWorkflows.length / itemsPerPage);
 
   const paginatedWorkflows = allWorkflows.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   return (
@@ -34,7 +41,7 @@ export default async function WorkflowsPage({
 
       {paginatedWorkflows.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {paginatedWorkflows.map((workflow: GithubContent) => (
               <WorkflowCard key={workflow.sha} workflow={workflow} />
             ))}
