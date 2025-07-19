@@ -26,6 +26,20 @@ const AnimatedOrb = () => (
             .pulsing-orb {
               animation: pulse 5s infinite ease-in-out;
             }
+            .text-stroke {
+              text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            }
+            @keyframes pulse-shadow {
+              0%, 100% {
+                box-shadow: 0 0 20px rgba(27, 95%, 58%, 0.2);
+              }
+              50% {
+                box-shadow: 0 0 35px rgba(27, 95%, 58%, 0.4);
+              }
+            }
+            .alive-button {
+              animation: pulse-shadow 4s infinite ease-in-out;
+            }
           `}
         </style>
       </defs>
@@ -66,13 +80,13 @@ export default function Home() {
             
             {/* Left Column Text */}
             <div className="text-left lg:col-span-2">
-              <div className="inline-block">
+              <div className="inline-block relative">
                 <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
                   <span className="text-primary">AUTOMATION</span>
                   <span className="text-white"> SUITE</span>
                 </h1>
-                <div className="mt-1 text-lg leading-8 text-gray-300 flex justify-end">
-                    <p>Powered by N8N With <span className="text-primary">SorenXi</span></p>
+                <div className="absolute right-0 mt-1 text-sm text-gray-300 w-auto">
+                    <p className="text-right whitespace-nowrap">Powered by N8N With <span className="text-primary">SorenXi</span></p>
                 </div>
               </div>
             </div>
@@ -88,12 +102,12 @@ export default function Home() {
               <div className="relative h-full flex items-center p-8 sm:p-10">
                 <div className="w-1/2 z-10">
                   <p className="font-bold text-sm text-white/80 uppercase tracking-widest">SorenXi</p>
-                  <h2 className="mt-2 font-headline text-7xl sm:text-8xl font-bold text-white">N8N</h2>
+                  <h2 className="mt-2 font-headline text-7xl sm:text-8xl font-bold text-white text-stroke">N8N</h2>
                   <p className="mt-4 text-white/90 text-base max-w-sm">
                     n8n work flow directory with hundreds of collected n8n workflows from many developers around the globe. why reinvent the wheel when you can just modify it.
                   </p>
                   <div className="mt-8">
-                     <Button asChild size="lg" variant="secondary" className="font-bold bg-white/10 hover:bg-white/20 text-white">
+                     <Button asChild size="lg" variant="secondary" className="font-bold bg-white/10 hover:bg-white/20 text-white alive-button">
                         <Link href="/workflows">
                           Explore
                           <ArrowRight className="ml-2" />
