@@ -34,6 +34,15 @@ const AnimatedOrb = () => (
                 0px 4px 0px hsl(var(--foreground) / 0.1),
                 2px 4px 8px rgba(0, 0, 0, 0.5);
             }
+            @keyframes cycle-colors {
+              0%, 100% { background-color: rgba(255, 255, 255, 0.133); } /* bg-white/20 */
+              25% { background-color: #ef4444; } /* red-500 */
+              50% { background-color: #eab308; } /* yellow-500 */
+              75% { background-color: #22c55e; } /* green-500 */
+            }
+            .anim-led {
+              animation: cycle-colors 6s infinite ease-in-out;
+            }
           `}
         </style>
       </defs>
@@ -91,9 +100,9 @@ export default function Home() {
             {/* Right Column Hero Card */}
             <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px] border-4 border-blue-950">
               <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
-                 <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                 <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                 <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                 <div className="w-3 h-3 rounded-full bg-white/20 anim-led"></div>
+                 <div className="w-3 h-3 rounded-full bg-white/20 anim-led" style={{ animationDelay: '0.2s' }}></div>
+                 <div className="w-3 h-3 rounded-full bg-white/20 anim-led" style={{ animationDelay: '0.4s' }}></div>
               </div>
 
               <div className="relative h-full flex items-center p-8 sm:p-10">
