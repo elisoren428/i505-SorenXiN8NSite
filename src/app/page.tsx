@@ -1,7 +1,39 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BotMessageSquare, Github, Globe, Mail } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+
+const AnimatedOrb = () => (
+  <div className="absolute inset-0 flex items-center justify-center bg-transparent overflow-hidden">
+    <svg viewBox="0 0 200 200" className="w-full h-full">
+      <defs>
+        <radialGradient id="orb-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" style={{ stopColor: 'rgba(59, 130, 246, 0.8)', stopOpacity: 1 }} />
+          <stop offset="70%" style={{ stopColor: 'rgba(37, 99, 235, 0.4)', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: 'rgba(30, 64, 175, 0.1)', stopOpacity: 1 }} />
+        </radialGradient>
+        <style>
+          {`
+            @keyframes pulse {
+              0%, 100% {
+                transform: scale(0.95);
+                opacity: 0.9;
+              }
+              50% {
+                transform: scale(1.05);
+                opacity: 1;
+              }
+            }
+            .pulsing-orb {
+              animation: pulse 6s infinite ease-in-out;
+            }
+          `}
+        </style>
+      </defs>
+      <circle cx="100" cy="100" r="80" fill="url(#orb-gradient)" className="pulsing-orb" />
+    </svg>
+  </div>
+);
+
 
 export default function Home() {
   return (
@@ -43,7 +75,7 @@ export default function Home() {
             </div>
 
             {/* Right Column Hero Card */}
-            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/80 via-blue-800/90 to-blue-900/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3">
+            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_70%_at_center,_var(--tw-gradient-stops))] from-blue-600/50 via-blue-800/80 to-blue-900/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3">
                <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
@@ -69,13 +101,7 @@ export default function Home() {
                    </div>
                 </div>
                 <div className="relative min-h-[400px]">
-                  <Image
-                    src="https://placehold.co/600x800.png"
-                    alt="AI Robot Head"
-                    data-ai-hint="robot head"
-                    fill
-                    className="object-cover"
-                  />
+                  <AnimatedOrb />
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-800/60 to-transparent"></div>
                 </div>
               </div>
