@@ -10,7 +10,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-4">
             <BotMessageSquare className="h-10 w-10 text-primary" />
             <div className="flex flex-col">
-              <h1 className="font-body text-3xl font-bold tracking-wide text-white">
+              <h1 className="font-sans text-3xl font-bold tracking-wide text-white">
                 SORENXI N8N DIRECTORY
               </h1>
             </div>

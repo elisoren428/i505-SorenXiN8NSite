@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
         headline: ['Bebas Neue', 'sans-serif'],
+        sans: ['"Nunito Sans"', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
