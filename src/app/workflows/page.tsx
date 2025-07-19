@@ -33,7 +33,7 @@ export default async function WorkflowsPage() {
   return (
     <div className="space-y-12">
       <div className="text-center">
-        <h1 className="font-headline text-5xl font-bold tracking-tight text-white sm:text-7xl">
+        <h1 className="font-headline text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-white drop-shadow-[0_2px_4px_rgba(255,140,0,0.4)] sm:text-7xl">
           Workflow Directory
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-300">
