@@ -7,28 +7,17 @@ export default function Home() {
     <div className="container mx-auto px-4">
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          className="absolute inset-0 -z-10 h-full w-full overflow-hidden"
           aria-hidden="true"
         >
-          {/* This div is for the main radial gradient background, which is now handled in the Background component */}
-        </div>
-
-        <div
-          className="absolute inset-0 -z-10 overflow-hidden"
-          aria-hidden="true"
-        >
-          <div className="absolute top-[5%] left-0 -translate-x-1/4">
-            <p className="font-headline text-[20rem] font-black text-white/5 whitespace-nowrap">
+          <div className="absolute inset-0 flex flex-col justify-between">
+            <p className="font-headline text-[20rem] font-black leading-none text-white/5">
               N8N
             </p>
-          </div>
-          <div className="absolute top-1/2 left-0 -translate-x-1/3 -translate-y-1/2">
-            <p className="font-headline text-[25rem] font-black text-white/[.07] whitespace-nowrap">
+            <p className="font-headline text-[25rem] font-black leading-none text-white/[.07]">
               N8N
             </p>
-          </div>
-          <div className="absolute bottom-[5%] left-0 -translate-x-1/2">
-            <p className="font-headline text-[22rem] font-black text-white/5 whitespace-nowrap">
+            <p className="font-headline text-[22rem] font-black leading-none text-white/5">
               N8N
             </p>
           </div>
