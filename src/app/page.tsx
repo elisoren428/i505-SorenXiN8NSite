@@ -10,7 +10,7 @@ export default function Home() {
           className="absolute inset-x-0 top-0 -z-10 flex h-full flex-col justify-start overflow-hidden"
           aria-hidden="true"
         >
-          <div className="flex flex-col" style={{ lineHeight: '0.7' }}>
+          <div className="flex flex-col" style={{ lineHeight: '0.8' }}>
             <p className="font-headline text-[18rem] font-normal text-white/5">
               SORENXI
             </p>
