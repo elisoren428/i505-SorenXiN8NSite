@@ -28,22 +28,11 @@ const AnimatedOrb = () => (
             }
             .text-3d {
               text-shadow:
-                0px 1px 0px hsl(var(--foreground) / 0.1),
-                0px 2px 0px hsl(var(--foreground) / 0.1),
-                0px 3px 0px hsl(var(--foreground) / 0.1),
+                0px 1px 0px hsl(var(--foreground) / 0.4),
+                0px 2px 0px hsl(var(--foreground) / 0.3),
+                0px 3px 0px hsl(var(--foreground) / 0.2),
                 0px 4px 0px hsl(var(--foreground) / 0.1),
                 2px 4px 8px rgba(0, 0, 0, 0.5);
-            }
-            @keyframes pulse-glow {
-              0%, 100% {
-                box-shadow: 0 0 10px hsl(var(--primary) / 0.2), 0 0 5px hsl(var(--primary) / 0.3);
-              }
-              50% {
-                box-shadow: 0 0 20px hsl(var(--primary) / 0.4), 0 0 10px hsl(var(--primary) / 0.5);
-              }
-            }
-            .alive-button {
-              animation: pulse-glow 3s infinite ease-in-out;
             }
           `}
         </style>
@@ -115,12 +104,14 @@ export default function Home() {
                     n8n work flow directory with hundreds of collected n8n workflows from many developers around the globe. why reinvent the wheel when you can just modify it.
                   </p>
                   <div className="mt-8">
-                     <Button asChild size="lg" variant="secondary" className="font-bold bg-white/10 hover:bg-white/20 text-white alive-button">
-                        <Link href="/workflows">
-                          Explore
-                          <ArrowRight className="ml-2" />
-                        </Link>
-                      </Button>
+                     <div className="inline-block rounded-md bg-gradient-to-r from-orange-500 to-orange-800 p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+                        <Button asChild size="lg" className="font-bold bg-orange-700 hover:bg-orange-600 text-white rounded-sm">
+                            <Link href="/workflows">
+                              Explore
+                              <ArrowRight className="ml-2" />
+                            </Link>
+                        </Button>
+                      </div>
                    </div>
                 </div>
                 
