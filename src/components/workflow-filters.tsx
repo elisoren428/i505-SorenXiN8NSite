@@ -53,7 +53,7 @@ export function WorkflowFilters({ onFilterChange, categories }: WorkflowFiltersP
   };
 
   return (
-    <div className="p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-white/10 space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-4">
+    <div className="sticky top-24 z-30 p-4 rounded-lg bg-card/50 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/50 space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-4">
       <div className="relative md:flex-grow">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
