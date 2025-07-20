@@ -17,12 +17,17 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
   const workflowId = workflow.id;
 
   const sourceTitle = workflow.name || workflow.id || 'Untitled Workflow';
-  const cleanTitle = sourceTitle
+  let cleanTitle = sourceTitle
     .replace(/^\d+_/g, '')
     .replace(/[-_]/g, ' ')
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+
+  // Foolproof JS-based truncation
+  if (cleanTitle.length > 55) {
+    cleanTitle = cleanTitle.substring(0, 52) + '...';
+  }
   
   const imageUrl = workflow.imageUrl || 'https://placehold.co/300x160/222222/FFFFFF.png?text=SorenXi';
 
@@ -66,7 +71,7 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
         <div className="flex items-start gap-2">
             <Hash className="mt-1 h-5 w-5 shrink-0 text-primary"/>
             <div className="flex-1">
-              <h3 className="font-headline text-xl leading-tight text-white line-clamp-2">
+              <h3 className="font-headline text-xl leading-tight text-white min-h-[48px]">
                   {cleanTitle}
               </h3>
               <div className="mt-1 flex gap-2 overflow-hidden">
