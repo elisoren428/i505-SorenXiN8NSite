@@ -5,11 +5,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Lightbulb, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const apiData = [
   {
     title: "Clarifai AI",
     url: "https://clarifai.com/",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "Clarifai logo",
     steps: [
       "Signup: Use Google login.",
       "Create Profile: Set type to 'AR Projects', role to 'Educator/Student', and use-case to 'Pre-trained models'.",
@@ -20,6 +23,8 @@ const apiData = [
   {
     title: "Google AI Studio",
     url: "https://makersuite.google.com/app",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "Google AI logo",
     steps: [
         "Login: Use Google account.",
         "Explore Models: Gemini 2.0, 2.5 Pro, Gemma, Flashlight, and V2.",
@@ -35,6 +40,8 @@ const apiData = [
   {
     title: "Cerebras AI",
     url: "https://cerebras.net/",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "Cerebras logo",
     steps: [
         "Signup: Use Google login.",
         "Profile Info: Choose 'student' as use-case.",
@@ -46,6 +53,8 @@ const apiData = [
   {
     title: "Mistral AI",
     url: "https://mistral.ai/",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "Mistral AI logo",
     steps: [
         "Login: Google account.",
         "API Key: Go to API Key tab -> Generate -> Paste into Playground.",
@@ -56,6 +65,8 @@ const apiData = [
   {
     title: "Cloudflare AI",
     url: "https://developers.cloudflare.com/workers-ai/",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "Cloudflare logo",
     steps: [
         "Login: Cloudflare account.",
         "Find API Key: Dashboard -> Profile -> API Tokens -> Create new token (use 'Workers AI' template).",
@@ -67,6 +78,8 @@ const apiData = [
   {
     title: "GPT4All (Telegram-based)",
     url: "https://gpt4all.io",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "GPT4All logo",
     steps: [
         "Setup: Join their Telegram bot -> Generate Token -> View usage stats.",
         "Use Key: Insert into curl command for testing models like GPT4-mini.",
@@ -76,6 +89,8 @@ const apiData = [
   {
     title: "OpenRouter",
     url: "https://openrouter.ai",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "OpenRouter logo",
     steps: [
         "Filter for Free: Set Prompt Pricing slider to 'FREE'.",
         "Signup: Email or GitHub.",
@@ -87,6 +102,8 @@ const apiData = [
   {
     title: "Together AI",
     url: "https://platform.together.xyz",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "Together AI logo",
     steps: [
         "Dashboard -> See API Key (auto-created).",
         "Playground -> Test models like DeepSeek R1, Metal LLaMA, Flux.1, Exeoni."
@@ -96,6 +113,8 @@ const apiData = [
   {
     title: "GitHub Models",
     url: "https://github.com/",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "GitHub logo",
     steps: [
         "Explore: Search 'Copilot models' or visit Marketplace -> Models tab.",
         "Try It: Select model -> 'Use this model' -> Launch playground.",
@@ -106,6 +125,8 @@ const apiData = [
   {
     title: "Pollinations AI",
     url: "https://pollinations.ai/",
+    imageUrl: "https://placehold.co/100x100.png",
+    imageHint: "Pollinations AI logo",
     steps: [
         "Access: No signup or key needed.",
         "Use: Just enter prompt in the URL or UI.",
@@ -116,15 +137,21 @@ const apiData = [
 ];
 
 const ApiCard = ({ api }: { api: any }) => (
-  <Card className="bg-card/50 backdrop-blur-sm border-white/10 h-full flex flex-col">
+  <Card className="bg-card/50 backdrop-blur-sm border-white/10 h-full flex flex-col group">
     <CardHeader>
       <div className="flex justify-between items-start">
-        <CardTitle className="font-headline text-3xl tracking-wide">{api.title}</CardTitle>
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={api.url} target="_blank">
-            <ExternalLink className="h-5 w-5 text-accent" />
-          </Link>
-        </Button>
+        <div className="flex-1">
+          <CardTitle className="font-headline text-3xl tracking-wide">{api.title}</CardTitle>
+        </div>
+        <div className="relative w-16 h-16 ml-4 overflow-hidden rounded-lg border-2 border-white/10">
+            <Image
+                src={api.imageUrl}
+                alt={`${api.title} logo`}
+                fill
+                data-ai-hint={api.imageHint}
+                className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-3"
+            />
+        </div>
       </div>
     </CardHeader>
     <CardContent className="flex-grow flex flex-col">
@@ -146,11 +173,16 @@ const ApiCard = ({ api }: { api: any }) => (
           </>
         )}
       </div>
-      <div className="mt-auto pt-4">
-        <Badge variant="secondary" className="whitespace-normal text-left py-2 px-3">
+      <div className="mt-auto pt-4 flex justify-between items-end">
+        <Badge variant="secondary" className="whitespace-normal text-left py-2 px-3 max-w-[calc(100%-4rem)]">
           <Lightbulb className="h-4 w-4 mr-2 shrink-0"/>
           {api.notes}
         </Badge>
+         <Button variant="ghost" size="icon" asChild>
+          <Link href={api.url} target="_blank">
+            <ExternalLink className="h-5 w-5 text-accent" />
+          </Link>
+        </Button>
       </div>
     </CardContent>
   </Card>
