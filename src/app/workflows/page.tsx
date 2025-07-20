@@ -10,7 +10,7 @@ export default async function WorkflowsPage() {
     <div className="space-y-8">
       <div className="text-center rounded-lg overflow-hidden relative h-64 flex items-center justify-center">
         <video 
-          src="https://cdn.pixabay.com/video/2022/05/12/115161-712117178_large.mp4"
+          src="/workflow-header.mp4"
           autoPlay
           loop
           muted
