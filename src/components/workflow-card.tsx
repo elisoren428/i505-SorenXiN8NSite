@@ -164,21 +164,19 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
                 <h3 className="font-headline text-xl truncate font-bold text-white">
                   {cleanTitle}
                 </h3>
-                <p className="text-sm text-muted-foreground -mt-1">
-                  An n8n workflow for {workflow.category}.
-                </p>
+                <div className="flex gap-2 overflow-hidden mt-1">
+                  {(workflow.tags || []).slice(0, 2).map((tag) => (
+                    <Badge key={tag} variant="outline" className="truncate text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
             </div>
         </div>
         
         <div className="mt-auto pt-4 flex justify-between items-center">
-          <div className="flex gap-2 overflow-hidden">
-            {(workflow.tags || []).slice(0, 2).map((tag) => (
-              <Badge key={tag} variant="outline" className="truncate">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-          <Button asChild size="sm" className="shrink-0">
+           <p className="text-sm text-muted-foreground">{workflow.category}</p>
+           <Button asChild size="sm" className="shrink-0">
             <Link href={`/workflows/${workflowId}`}>
               View <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
