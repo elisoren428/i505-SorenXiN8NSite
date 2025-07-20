@@ -51,13 +51,10 @@ async function fetchWorkflowsFromGitHub(): Promise<N8NWorkflow[]> {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: 'application/vnd.github.v3+json',
       },
-      next: {
-        revalidate: 3600 // Revalidate every hour
-      }
     });
 
     if (!response.ok) {
-      console.error('Failed to fetch workflows from GitHub:', response.status, response.statusText);
+      console.error('Failed to fetch workflows list from GitHub:', response.status, response.statusText);
       const errorBody = await response.text();
       console.error('GitHub API Response:', errorBody);
       return [];
@@ -82,14 +79,7 @@ async function fetchWorkflowsFromGitHub(): Promise<N8NWorkflow[]> {
   }
 }
 
-export const getWorkflows = cache(
-  fetchWorkflowsFromGitHub,
-  ['workflows'], 
-  { revalidate: 3600 }
-);
-
-
-export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null> {
+async function fetchWorkflow(fileName: string): Promise<N8NWorkflow | null> {
     const safeFileName = fileName.endsWith('.json') ? fileName : `${fileName}.json`;
     const fileUrl = `${API_URL}/${safeFileName}`;
 
@@ -102,7 +92,7 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
         });
 
         if (!response.ok) {
-            console.error(`Failed to fetch workflow ${safeFileName} from GitHub:`, response.statusText);
+            console.error(`Failed to fetch workflow ${safeFileName} from GitHub:`, response.status, response.statusText);
             return null;
         }
 
@@ -113,8 +103,15 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
         workflowData.complexity = assignComplexity(workflowData.nodes.length);
         workflowData.category = assignCategory(workflowData.name);
         
-        workflowData.tags = [...new Set(workflowData.nodes.map(node => node.type.split('.').pop()?.replace(/([A-Z])/g, ' $1').trim().split(' ')[0]))].slice(0,3);
-
+        const tags = new Set<string>();
+        workflowData.nodes.forEach(node => {
+            const typeParts = node.type.split('.');
+            if(typeParts.length > 1) {
+                const tag = typeParts[1].replace(/([A-Z])/g, ' $1').trim().split(' ')[0];
+                tags.add(tag);
+            }
+        });
+        workflowData.tags = Array.from(tags).slice(0, 3);
 
         return workflowData;
 
@@ -154,8 +151,7 @@ async function fetchWorkflowStats(): Promise<WorkflowStats> {
   };
 }
 
-export const getWorkflowStats = cache(
-  fetchWorkflowStats,
-  ['workflow-stats'],
-  { revalidate: 3600 }
-);
+// Cached functions that wrap the actual data fetching logic
+export const getWorkflows = cache(fetchWorkflowsFromGitHub, ['workflows'], { revalidate: 3600 });
+export const getWorkflow = cache(fetchWorkflow, ['workflow'], { revalidate: 3600 });
+export const getWorkflowStats = cache(fetchWorkflowStats, ['workflow-stats'], { revalidate: 3600 });
