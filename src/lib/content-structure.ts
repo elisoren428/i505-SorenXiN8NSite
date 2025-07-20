@@ -57,3 +57,23 @@ export const homepageContent: PageContent = {
     }
   },
 };
+
+export interface NavItem {
+  href: string;
+  label: string;
+}
+
+export interface HeaderContent {
+  title: string;
+  navItems: NavItem[];
+}
+
+export const headerContent: HeaderContent = {
+  title: 'SORENXI N8N DIRECTORY',
+  navItems: [
+    { href: '/', label: 'Home' },
+    { href: '/workflows', label: 'Explore' },
+    { href: '/ai-tagger', label: 'AI Tagger' },
+    { href: '/free-apis', label: 'Free APIs' },
+  ],
+};

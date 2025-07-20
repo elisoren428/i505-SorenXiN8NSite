@@ -3,20 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/workflows', label: 'Explore' },
-  { href: '/ai-tagger', label: 'AI Tagger' },
-  { href: '/free-apis', label: 'Free APIs' },
-];
+import { headerContent } from '@/lib/content-structure';
 
 export function HeaderNav() {
   const pathname = usePathname();
+  const navItems = headerContent.navItems;
 
   return (
     <nav className="flex items-center space-x-6">
-      {navItems.map((item) => (
+      {navItems.map((item, index) => (
         <Link
           key={item.href}
           href={item.href}
@@ -24,6 +19,7 @@ export function HeaderNav() {
             'text-lg font-medium transition-colors hover:text-primary',
             pathname === item.href ? 'text-primary' : 'text-muted-foreground'
           )}
+          data-cms-id={`header.nav.${index}`}
         >
           {item.label}
         </Link>
