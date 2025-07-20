@@ -10,7 +10,7 @@ export default async function WorkflowsPage() {
     <div className="space-y-8">
       <div className="text-center rounded-lg overflow-hidden relative h-64 flex items-center justify-center">
         <video 
-          src="https://cdn.streamable.com/video/mp4/5dsmo8.mp4"
+          src="https://streamable.com/video/mp4/5dsmo8.mp4"
           autoPlay
           loop
           muted
