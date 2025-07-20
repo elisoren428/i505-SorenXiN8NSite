@@ -40,9 +40,9 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
   };
 
   return (
-    <Card className="group flex flex-col h-full w-full max-w-[300px] mx-auto overflow-hidden rounded-lg bg-card/80 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform border-white/10">
+    <Card className="group flex h-full w-full max-w-[300px] flex-col overflow-hidden rounded-lg border-white/10 bg-card/80 shadow-lg transition-all duration-300 ease-in-out will-change-transform hover:scale-105 hover:shadow-primary/20">
       <Link href={`/workflows/${workflowId}`} className="block">
-        <div className="relative h-40 w-full">
+        <div className="relative h-40 w-full overflow-hidden border-b-2 border-transparent transition-colors duration-300 group-hover:border-primary">
           <Image
             src={imageUrl}
             alt={`${cleanTitle} workflow preview`}
@@ -62,14 +62,14 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
           </Badge>
         </div>
       </Link>
-      <CardContent className="p-4 flex flex-col flex-grow bg-card/80">
+      <CardContent className="flex flex-grow flex-col bg-card/80 p-4">
         <div className="flex items-start gap-2">
-            <Hash className="h-5 w-5 text-primary mt-1 shrink-0"/>
-            <div>
-                <h3 className="font-headline text-xl truncate font-bold text-white">
+            <Hash className="mt-1 h-5 w-5 shrink-0 text-primary"/>
+            <div className="flex-1">
+                <h3 className="font-headline text-2xl leading-tight text-white h-[3.25rem] line-clamp-2">
                   {cleanTitle}
                 </h3>
-                <div className="flex gap-2 overflow-hidden mt-1">
+                <div className="mt-1 flex gap-2 overflow-hidden">
                   {(workflow.tags || []).slice(0, 2).map((tag) => (
                     <Badge key={tag} variant="outline" className="truncate text-xs">
                       {tag}
@@ -79,7 +79,7 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
             </div>
         </div>
         
-        <div className="mt-auto pt-4 flex justify-between items-center">
+        <div className="mt-auto flex items-center justify-between pt-4">
            <p className="text-sm text-muted-foreground">{workflow.category}</p>
            <Button asChild size="sm" className="shrink-0">
             <Link href={`/workflows/${workflowId}`}>
