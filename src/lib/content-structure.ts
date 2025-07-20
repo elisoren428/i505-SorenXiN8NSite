@@ -265,3 +265,14 @@ export const freeApisContent: FreeApisContent = {
     ]
   }
 };
+
+
+export interface AITaggerContent {
+  title: string;
+  description: string;
+}
+
+export const aiTaggerContent: AITaggerContent = {
+  title: 'AI Tagger',
+  description: 'Functionality for the AI Tagger will be implemented here.',
+};
