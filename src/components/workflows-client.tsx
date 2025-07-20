@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import type { N8NWorkflow } from '@/lib/types';
 import { WorkflowCard } from '@/components/workflow-card';
 import { WorkflowFilters, FilterState } from '@/components/workflow-filters';
@@ -17,7 +17,6 @@ export function WorkflowsClient({ allWorkflows }: WorkflowsClientProps) {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = 12;
-  const [isLoading, setIsLoading] = useState(true);
 
   const [filters, setFilters] = useState<FilterState>({
     search: '',
@@ -62,12 +61,6 @@ export function WorkflowsClient({ allWorkflows }: WorkflowsClientProps) {
     return filtered;
   }, [allWorkflows, filters]);
   
-  useEffect(() => {
-    if (allWorkflows && allWorkflows.length > 0) {
-      setIsLoading(false);
-    }
-  }, [allWorkflows]);
-
 
   const totalPages = Math.ceil(filteredAndSortedWorkflows.length / itemsPerPage);
   const paginatedWorkflows = filteredAndSortedWorkflows.slice(
@@ -87,23 +80,7 @@ export function WorkflowsClient({ allWorkflows }: WorkflowsClientProps) {
         categories={allCategories}
       />
 
-      {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="w-full max-w-[300px] mx-auto h-[310px] space-y-2">
-                    <Skeleton className="h-40 w-full" />
-                    <div className="p-4 space-y-3">
-                        <Skeleton className="h-6 w-3/4" />
-                        <Skeleton className="h-4 w-full" />
-                        <div className="flex justify-between items-center pt-2">
-                            <Skeleton className="h-6 w-16" />
-                            <Skeleton className="h-9 w-24" />
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-      ) : paginatedWorkflows.length > 0 ? (
+      {paginatedWorkflows.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {paginatedWorkflows.map((workflow) => (
             <WorkflowCard key={workflow.id} workflow={workflow} />
@@ -116,7 +93,7 @@ export function WorkflowsClient({ allWorkflows }: WorkflowsClientProps) {
         </div>
       )}
 
-      {totalPages > 1 && !isLoading && (
+      {totalPages > 1 && (
         <div className="py-8">
           <PaginationComponent totalPages={totalPages} />
         </div>
