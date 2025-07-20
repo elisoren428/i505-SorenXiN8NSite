@@ -10,6 +10,7 @@ export default function FreeApisLayout({
         aria-hidden="true"
       >
         <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_15%,rgba(59,130,246,0.3),rgba(255,255,255,0))]"></div>
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
       </div>
       {children}
     </div>
