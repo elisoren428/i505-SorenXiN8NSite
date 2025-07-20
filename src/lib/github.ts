@@ -80,7 +80,7 @@ export const getWorkflows = cache(
     }
   },
   ['workflows'], 
-  { revalidate: 3600 }
+  { revalidate: false } // Temporarily disable cache to force re-fetch with new auth
 );
 
 
@@ -150,5 +150,5 @@ export const getWorkflowStats = cache(
     };
   },
   ['workflow-stats'],
-  { revalidate: 3600 }
+  { revalidate: false } // Temporarily disable cache
 );
