@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
@@ -95,17 +94,13 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
   
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Simple hash function to get a consistent image per workflow
-    const hash = workflowId.split('').reduce((acc, char) => {
-        return char.charCodeAt(0) + ((acc << 5) - acc);
-    }, 0);
-    const index = Math.abs(hash) % staticImages.length;
-    setImageUrl(staticImages[index]);
-  }, [workflowId]);
-
+  // Simple hash function to get a consistent image per workflow
+  // This logic now runs on both server and client, fixing the hydration mismatch.
+  const hash = workflowId.split('').reduce((acc, char) => {
+      return char.charCodeAt(0) + ((acc << 5) - acc);
+  }, 0);
+  const index = Math.abs(hash) % staticImages.length;
+  const imageUrl = staticImages[index];
 
   const getComplexityColor = (complexity: string) => {
     switch (complexity) {
@@ -119,25 +114,6 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
         return 'bg-gray-500/90 text-white';
     }
   };
-
-  if (!imageUrl) {
-    return (
-        <Card className="group flex flex-col h-full w-full max-w-[300px] mx-auto overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
-           <div className="relative h-40 w-full bg-muted animate-pulse"></div>
-           <CardContent className="p-4 flex flex-col flex-grow">
-                <div className="h-6 w-3/4 bg-muted animate-pulse rounded-md"></div>
-                <div className="h-10 w-full bg-muted animate-pulse rounded-md mt-2"></div>
-                <div className="mt-4 flex justify-between items-center">
-                    <div className="flex gap-2">
-                        <div className="h-5 w-12 bg-muted animate-pulse rounded-full"></div>
-                        <div className="h-5 w-12 bg-muted animate-pulse rounded-full"></div>
-                    </div>
-                    <div className="h-9 w-24 bg-muted animate-pulse rounded-md"></div>
-                </div>
-            </CardContent>
-        </Card>
-    );
-  }
 
   return (
     <Card className="group flex flex-col h-full w-full max-w-[300px] mx-auto overflow-hidden rounded-lg bg-card/80 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform border-white/10">
