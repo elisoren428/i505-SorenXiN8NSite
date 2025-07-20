@@ -62,7 +62,10 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
         inset: 0;
         border-radius: inherit;
         padding: inherit;
-        background: conic-gradient(from 180deg at 50% 50%, hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
+        background: conic-gradient(from 180deg at 50% 50%, hsl(var(--accent) / 0.7), hsl(var(--primary) / 0.7), hsl(var(--accent) / 0.7));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
         z-index: 0;
         opacity: 0;
         transition: opacity 0.3s ease-in-out;
@@ -89,7 +92,7 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
         overflow: hidden;
       }
     `}</style>
-    <div className="group w-full max-w-[300px] card-frame">
+    <div className="group w-full max-w-[300px] h-full card-frame">
       <div className="card-frame-inner">
         <Link href={`/workflows/${workflowId}`} className="block">
           <div className="relative h-40 w-full overflow-hidden">
