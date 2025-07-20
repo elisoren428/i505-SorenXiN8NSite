@@ -56,7 +56,6 @@ export const getWorkflows = cache(
 
       if (!response.ok) {
         console.error('Failed to fetch workflows from GitHub:', response.status, response.statusText);
-        // Log the response body if possible for more details
         const errorBody = await response.text();
         console.error('GitHub API Response:', errorBody);
         return [];
@@ -80,8 +79,8 @@ export const getWorkflows = cache(
       return [];
     }
   },
-  ['workflows'], // Cache key
-  { revalidate: 3600 } // Revalidate every hour
+  ['workflows'], 
+  { revalidate: 3600 }
 );
 
 
@@ -109,7 +108,6 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
         workflowData.complexity = assignComplexity(workflowData.nodes.length);
         workflowData.category = assignCategory(workflowData.name);
         
-        // Simple tag extraction from node types
         workflowData.tags = [...new Set(workflowData.nodes.map(node => node.type.split('.').pop()?.replace(/([A-Z])/g, ' $1').trim().split(' ')[0]))].slice(0,3);
 
 
