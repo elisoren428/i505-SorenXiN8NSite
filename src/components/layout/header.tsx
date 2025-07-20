@@ -15,12 +15,16 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-24 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-4">
-            <BotMessageSquare className="h-8 w-8 text-primary" />
-            <h1 className="font-sans text-xl font-bold tracking-wide text-white" data-cms-id="header.title">
-              {content.title}
-            </h1>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/admin" aria-label="Admin Dashboard">
+              <BotMessageSquare className="h-8 w-8 text-primary" />
+            </Link>
+            <Link href="/">
+              <h1 className="font-sans text-xl font-bold tracking-wide text-white" data-cms-id="header.title">
+                {content.title}
+              </h1>
+            </Link>
+          </div>
           <div className="hidden lg:flex items-center gap-6">
             <Separator orientation="vertical" className="h-8" />
             <HeaderStats />

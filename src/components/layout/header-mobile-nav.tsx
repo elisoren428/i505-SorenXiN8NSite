@@ -27,10 +27,14 @@ export function HeaderMobileNav() {
       <SheetContent side="left" className="w-[300px] sm:w-[400px]">
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between border-b pb-4">
-             <Link href="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
-                <BotMessageSquare className="h-8 w-8 text-primary" />
-                <span className="font-bold text-lg" data-cms-id="header.title">{title}</span>
-            </Link>
+             <div className="flex items-center gap-3">
+                <Link href="/admin" onClick={() => setIsOpen(false)} aria-label="Admin Dashboard">
+                    <BotMessageSquare className="h-8 w-8 text-primary" />
+                </Link>
+                <Link href="/" onClick={() => setIsOpen(false)}>
+                    <span className="font-bold text-lg" data-cms-id="header.title">{title}</span>
+                </Link>
+            </div>
             <SheetClose asChild>
                 <Button variant="ghost" size="icon">
                     <X className="h-5 w-5" />
