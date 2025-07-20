@@ -1,3 +1,4 @@
+
 import { generateWorkflowImage } from '@/ai/flows/generate-workflow-image';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -19,7 +20,7 @@ async function getErrorFallbackImageResponse(): Promise<NextResponse> {
         const fallbackResponse = await fetch(fallbackUrl);
         if (!fallbackResponse.ok) {
            // If the random image fails, use a super-safe placeholder
-           const ultimateFallbackUrl = `https://placehold.co/300x160/222222/FF8C00.png?text=Error`;
+           const ultimateFallbackUrl = `https://placehold.co/300x160/222222/FF8C00.png?text=Image+Load+Error`;
            const ultimateFallbackResponse = await fetch(ultimateFallbackUrl);
             return new NextResponse(ultimateFallbackResponse.body, {
                 headers: {
