@@ -16,13 +16,17 @@ export function Header() {
               SORENXI N8N DIRECTORY
             </h1>
           </Link>
-          <Separator orientation="vertical" className="h-8" />
-          <HeaderStats />
+          <div className="hidden lg:flex items-center gap-6">
+            <Separator orientation="vertical" className="h-8" />
+            <HeaderStats />
+          </div>
         </div>
-        <HeaderNav />
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
+          <HeaderNav />
+          <div className="hidden md:flex items-center gap-4">
             <Button variant="ghost">Sign In</Button>
             <Button>Sign Up</Button>
+          </div>
         </div>
       </div>
     </header>

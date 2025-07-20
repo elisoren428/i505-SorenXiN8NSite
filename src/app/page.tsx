@@ -128,10 +128,10 @@ export default function Home() {
       {/* New Foreground Content */}
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-full py-16 sm:py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left Column Text */}
-            <div className="text-left lg:col-span-2">
+            <div className="text-left">
                <div className="relative inline-block">
                 <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
                   <span className="text-primary">AUTOMATION</span>
@@ -147,7 +147,7 @@ export default function Home() {
 
 
             {/* Right Column Hero Card */}
-            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 lg:col-span-3 min-h-[480px] border-4 border-blue-950">
+            <div className="relative rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 min-h-[480px] border-4 border-blue-950">
               <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20 anim-led"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20 anim-led" style={{ animationDelay: '1.67s' }}></div>
@@ -155,7 +155,7 @@ export default function Home() {
               </div>
 
               <div className="relative h-full flex items-center p-8 sm:p-10">
-                <div className="w-1/2 z-10">
+                <div className="lg:w-1/2 z-10">
                   <p className="font-bold text-sm text-white/80 uppercase tracking-widest">SorenXi</p>
                   <h2 className="mt-2 font-headline text-7xl sm:text-8xl font-bold text-white text-3d">N8N</h2>
                   <p className="mt-4 text-white/90 text-base max-w-sm">
