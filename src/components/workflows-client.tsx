@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -7,7 +6,7 @@ import { WorkflowCard } from '@/components/workflow-card';
 import { WorkflowFilters, FilterState } from '@/components/workflow-filters';
 import { PaginationComponent } from '@/components/ui/pagination';
 import { useSearchParams } from 'next/navigation';
-import { Skeleton } from '@/components/ui/skeleton';
+import { filterAndSortWorkflows } from '@/lib/workflow-utils';
 
 interface WorkflowsClientProps {
     allWorkflows: N8NWorkflow[];
@@ -26,55 +25,7 @@ export function WorkflowsClient({ allWorkflows }: WorkflowsClientProps) {
   });
 
   const filteredAndSortedWorkflows = useMemo(() => {
-    let filtered = allWorkflows;
-
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      filtered = filtered.filter(
-        (wf) =>
-          wf.name?.toLowerCase().includes(searchTerm) ||
-          (wf.tags && wf.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
-      );
-    }
-
-    if (filters.category !== 'all') {
-      filtered = filtered.filter((wf) => wf.category === filters.category);
-    }
-
-    if (filters.complexity !== 'all') {
-      filtered = filtered.filter((wf) => wf.complexity === filters.complexity);
-    }
-
-    // Use a stable sort by adding a secondary sort key (id) to prevent hydration errors.
-    switch (filters.sortBy) {
-      case 'recent':
-        filtered.sort((a, b) => {
-          const dateA = new Date(b.createdAt).getTime();
-          const dateB = new Date(a.createdAt).getTime();
-          if (dateA !== dateB) return dateA - dateB;
-          return a.id.localeCompare(b.id);
-        });
-        break;
-      case 'alphabetical':
-        filtered.sort((a, b) => {
-          const nameA = a.name || '';
-          const nameB = b.name || '';
-          if (nameA !== nameB) return nameA.localeCompare(nameB);
-          return a.id.localeCompare(b.id);
-        });
-        break;
-      case 'complexity':
-        const complexityOrder = { Beginner: 1, Intermediate: 2, Advanced: 3, Unknown: 4 };
-        filtered.sort((a, b) => {
-            const complexityA = complexityOrder[a.complexity || 'Unknown'] || 4;
-            const complexityB = complexityOrder[b.complexity || 'Unknown'] || 4;
-            if (complexityA !== complexityB) return complexityA - complexityB;
-            return a.id.localeCompare(b.id);
-        });
-        break;
-    }
-    
-    return filtered;
+    return filterAndSortWorkflows(allWorkflows, filters);
   }, [allWorkflows, filters]);
   
 
