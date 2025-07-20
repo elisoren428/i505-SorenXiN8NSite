@@ -1,4 +1,6 @@
-import type {N8NWorkflow, GithubContent, WorkflowStats} from './types';
+
+import type {N8NWorkflow, GithubContent} from './types';
+import { unstable_noStore as noStore } from 'next/cache';
 
 const REPO_OWNER = 'elisoren428';
 const REPO_NAME = 'n8n-WorkFlow-Directory';
@@ -127,7 +129,7 @@ function assignComplexity(nodeCount: number): string {
   return 'Advanced';
 }
 
-function processWorkflow(workflowData: N8NWorkflow, fileName: string): N8NWorkflow {
+export function processWorkflow(workflowData: N8NWorkflow, fileName: string): N8NWorkflow {
     const workflowId = fileName.replace('.json', '');
     workflowData.id = workflowId;
     workflowData.complexity = assignComplexity(workflowData.nodes.length);
@@ -155,9 +157,16 @@ function processWorkflow(workflowData: N8NWorkflow, fileName: string): N8NWorkfl
 }
 
 
-async function fetchJson<T>(url: string): Promise<T | null> {
+export async function fetchJson<T>(url: string): Promise<T | null> {
+  // If we're on the server, we can cache the results.
+  // If we're on the client, we can't use this, so we just fetch.
+  // The `unstable_noStore` will prevent caching on the client.
+  noStore();
   try {
-    const response = await fetch(url, { headers: GITHUB_HEADERS });
+    const response = await fetch(url, { 
+      headers: GITHUB_HEADERS,
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
     if (!response.ok) {
       console.error(`API Error for ${url}: ${response.status} ${response.statusText}`);
       return null;
@@ -167,18 +176,6 @@ async function fetchJson<T>(url: string): Promise<T | null> {
     console.error(`Network error fetching ${url}:`, error);
     return null;
   }
-}
-
-export async function getWorkflow(id: string): Promise<N8NWorkflow | null> {
-    const fileContent = await fetchJson<GithubContent>(`${API_URL}/${id}.json`);
-    if (!fileContent || !fileContent.download_url) {
-        return null;
-    }
-    const workflowData = await fetchJson<N8NWorkflow>(fileContent.download_url);
-    if (!workflowData) {
-        return null;
-    }
-    return processWorkflow(workflowData, fileContent.name);
 }
 
 export async function getWorkflows(): Promise<N8NWorkflow[]> {
@@ -218,34 +215,4 @@ export async function getWorkflows(): Promise<N8NWorkflow[]> {
   }
   
   return allWorkflows;
-}
-
-
-export async function getWorkflowStats(): Promise<WorkflowStats> {
-  const workflows = await getWorkflows();
-  const workflowCount = workflows.length;
-
-  if (workflowCount === 0) {
-    return { workflowCount: 0, nodeCount: 0, integrationCount: 0 };
-  }
-
-  let nodeCount = 0;
-  const integrationTypes = new Set<string>();
-
-  workflows.forEach(workflow => {
-    if (workflow && Array.isArray(workflow.nodes)) {
-      nodeCount += workflow.nodes.length;
-      workflow.nodes.forEach(node => {
-        if (node.type.startsWith('n8n-nodes-base.')) return;
-        const integrationName = node.type.replace(/^n8n-nodes-/, '').split('.')[0];
-        integrationTypes.add(integrationName);
-      });
-    }
-  });
-
-  return {
-    workflowCount,
-    nodeCount,
-    integrationCount: integrationTypes.size,
-  };
 }
