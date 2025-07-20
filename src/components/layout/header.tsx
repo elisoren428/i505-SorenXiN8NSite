@@ -4,13 +4,13 @@
 import Link from 'next/link';
 import { BotMessageSquare } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { HeaderStats } from './header-stats';
 import { HeaderNav } from './header-nav';
 import { HeaderMobileNav } from './header-mobile-nav';
 import { Button } from '@/components/ui/button';
 import { useContent } from '@/context/content-context';
+import type { ReactNode } from 'react';
 
-export function Header() {
+export function Header({ stats }: { stats: ReactNode }) {
   const { content } = useContent();
   const pageContent = content.headerContent;
 
@@ -30,7 +30,7 @@ export function Header() {
           </div>
           <div className="hidden lg:flex items-center gap-6">
             <Separator orientation="vertical" className="h-8" />
-            <HeaderStats />
+            {stats}
           </div>
         </div>
         

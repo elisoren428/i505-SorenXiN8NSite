@@ -1,9 +1,7 @@
-import { Suspense } from 'react';
 import { Zap, Workflow, Puzzle } from 'lucide-react';
 import { getWorkflowStats } from '@/lib/github';
-import { Skeleton } from '@/components/ui/skeleton';
 
-async function Stats() {
+export async function HeaderStats() {
   const stats = await getWorkflowStats();
 
   const statItems = [
@@ -36,29 +34,5 @@ async function Stats() {
         </div>
       ))}
     </div>
-  );
-}
-
-function StatsSkeleton() {
-    return (
-        <div className="flex items-center gap-6">
-            {[...Array(3)].map((_, i) => (
-                <div key={i} className="flex items-center gap-3">
-                    <Skeleton className="h-6 w-6 rounded-md" />
-                    <div>
-                        <Skeleton className="h-6 w-16 mb-1" />
-                        <Skeleton className="h-4 w-20" />
-                    </div>
-                </div>
-            ))}
-        </div>
-    )
-}
-
-export function HeaderStats() {
-  return (
-    <Suspense fallback={<StatsSkeleton />}>
-      <Stats />
-    </Suspense>
   );
 }

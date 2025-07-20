@@ -7,6 +7,7 @@ import { Background } from '@/components/layout/background';
 import { AdminPanel } from '@/components/admin/admin-panel';
 import { Suspense } from 'react';
 import { ContentProvider } from '@/context/content-context';
+import { HeaderStats } from '@/components/layout/header-stats';
 
 export const metadata: Metadata = {
   title: 'SorenXi N8N Directory',
@@ -36,7 +37,7 @@ export default function RootLayout({
         <ContentProvider>
           <Background />
           <div className="relative z-10 flex min-h-screen flex-col">
-            <Header />
+            <Header stats={<HeaderStats />} />
             <main className="flex-1">{children}</main>
           </div>
           <Toaster />
