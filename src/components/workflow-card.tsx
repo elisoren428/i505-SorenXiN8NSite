@@ -98,8 +98,13 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    setImageUrl(staticImages[Math.floor(Math.random() * staticImages.length)]);
-  }, []);
+    // Simple hash function to get a consistent image per workflow
+    const hash = workflowId.split('').reduce((acc, char) => {
+        return char.charCodeAt(0) + ((acc << 5) - acc);
+    }, 0);
+    const index = Math.abs(hash) % staticImages.length;
+    setImageUrl(staticImages[index]);
+  }, [workflowId]);
 
 
   const getComplexityColor = (complexity: string) => {
