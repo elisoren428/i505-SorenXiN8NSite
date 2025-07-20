@@ -17,6 +17,8 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
   const workflowId = workflow.id;
 
   const sourceTitle = workflow.name || workflow.id || 'Untitled Workflow';
+  
+  // Foolproof JS-based truncation
   let cleanTitle = sourceTitle
     .replace(/^\d+_/g, '')
     .replace(/[-_]/g, ' ')
@@ -24,7 +26,6 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
-  // Foolproof JS-based truncation
   if (cleanTitle.length > 55) {
     cleanTitle = cleanTitle.substring(0, 52) + '...';
   }
@@ -45,8 +46,8 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
   };
 
   return (
-    <div className="group rounded-xl p-0.5 bg-white/10 shadow-lg transition-all duration-300 ease-in-out hover:bg-primary/50 hover:shadow-primary/20 w-full max-w-[300px] hover:scale-105 will-change-transform">
-      <Card className="h-full w-full bg-card flex flex-col overflow-hidden">
+    <div className="group w-full max-w-[300px] rounded-xl border border-white/20 bg-card/50 shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:border-primary hover:shadow-lg hover:shadow-primary/20 will-change-transform">
+      <Card className="h-full w-full flex flex-col overflow-hidden rounded-lg bg-transparent border-0">
         <Link href={`/workflows/${workflowId}`} className="block">
           <div className="relative h-40 w-full overflow-hidden">
             <Image
@@ -68,7 +69,7 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
             </Badge>
           </div>
         </Link>
-        <CardContent className="flex flex-grow flex-col bg-card/80 p-4">
+        <CardContent className="flex flex-grow flex-col p-4">
           <div className="flex items-start gap-2">
               <Hash className="mt-1 h-5 w-5 shrink-0 text-primary"/>
               <div className="flex-1">
