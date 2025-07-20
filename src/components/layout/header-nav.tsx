@@ -8,6 +8,7 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/workflows', label: 'Explore' },
   { href: '/ai-tagger', label: 'AI Tagger' },
+  { href: '/free-apis', label: 'Free APIs' },
 ];
 
 export function HeaderNav() {
