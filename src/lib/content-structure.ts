@@ -90,7 +90,7 @@ export const headerContent: HeaderContent = {
 interface ApiInfo {
   title: string;
   url: string;
-  imageHint: string;
+  imageUrl?: string;
   steps: string[];
   notes: string;
   quotas?: string[];
@@ -125,7 +125,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "Clarifai AI",
       url: "https://clarifai.com/",
-      imageHint: "Clarifai logo",
+      imageUrl: "https://placehold.co/100x100/1E88E5/FFFFFF.png?text=C",
       steps: [
         "Signup: Use Google login.",
         "Create Profile: Set type to 'AR Projects', role to 'Educator/Student', and use-case to 'Pre-trained models'.",
@@ -136,7 +136,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "Google AI Studio",
       url: "https://makersuite.google.com/app",
-      imageHint: "Google AI logo",
+      imageUrl: "https://placehold.co/100x100/4285F4/FFFFFF.png?text=G",
       steps: [
           "Login: Use Google account.",
           "Explore Models: Gemini 2.0, 2.5 Pro, Gemma, Flashlight, and V2.",
@@ -152,7 +152,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "Cerebras AI",
       url: "https://cerebras.net/",
-      imageHint: "Cerebras logo",
+      imageUrl: "https://placehold.co/100x100/F57C00/FFFFFF.png?text=Cb",
       steps: [
           "Signup: Use Google login.",
           "Profile Info: Choose 'student' as use-case.",
@@ -164,7 +164,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "Mistral AI",
       url: "https://mistral.ai/",
-      imageHint: "Mistral AI logo",
+      imageUrl: "https://placehold.co/100x100/FFCA28/333333.png?text=M",
       steps: [
           "Login: Google account.",
           "API Key: Go to API Key tab -> Generate -> Paste into Playground.",
@@ -175,7 +175,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "Cloudflare AI",
       url: "https://developers.cloudflare.com/workers-ai/",
-      imageHint: "Cloudflare logo",
+      imageUrl: "https://placehold.co/100x100/F38020/FFFFFF.png?text=CF",
       steps: [
           "Login: Cloudflare account.",
           "Find API Key: Dashboard -> Profile -> API Tokens -> Create new token (use 'Workers AI' template).",
@@ -185,9 +185,9 @@ export const freeApisContent: FreeApisContent = {
       notes: "10,000 req/day. Supports model deployment at edge locations."
     },
     {
-      title: "GPT4All (Telegram-based)",
+      title: "GPT4All",
       url: "https://gpt4all.io",
-      imageHint: "GPT4All logo",
+      imageUrl: "https://placehold.co/100x100/4CAF50/FFFFFF.png?text=G4A",
       steps: [
           "Setup: Join their Telegram bot -> Generate Token -> View usage stats.",
           "Use Key: Insert into curl command for testing models like GPT4-mini.",
@@ -197,7 +197,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "OpenRouter",
       url: "https://openrouter.ai",
-      imageHint: "OpenRouter logo",
+      imageUrl: "https://placehold.co/100x100/8155F4/FFFFFF.png?text=OR",
       steps: [
           "Filter for Free: Set Prompt Pricing slider to 'FREE'.",
           "Signup: Email or GitHub.",
@@ -209,7 +209,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "Together AI",
       url: "https://platform.together.xyz",
-      imageHint: "Together AI logo",
+      imageUrl: "https://placehold.co/100x100/29D3A5/FFFFFF.png?text=T",
       steps: [
           "Dashboard -> See API Key (auto-created).",
           "Playground -> Test models like DeepSeek R1, Metal LLaMA, Flux.1, Exeoni."
@@ -219,7 +219,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "GitHub Models",
       url: "https://github.com/",
-      imageHint: "GitHub logo",
+      imageUrl: "https://placehold.co/100x100/333333/FFFFFF.png?text=GH",
       steps: [
           "Explore: Search 'Copilot models' or visit Marketplace -> Models tab.",
           "Try It: Select model -> 'Use this model' -> Launch playground.",
@@ -230,7 +230,7 @@ export const freeApisContent: FreeApisContent = {
     {
       title: "Pollinations AI",
       url: "https://pollinations.ai/",
-      imageHint: "Pollinations AI logo",
+      imageUrl: "https://placehold.co/100x100/E91E63/FFFFFF.png?text=P",
       steps: [
           "Access: No signup or key needed.",
           "Use: Just enter prompt in the URL or UI.",

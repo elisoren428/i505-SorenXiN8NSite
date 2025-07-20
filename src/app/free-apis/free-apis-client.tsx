@@ -13,8 +13,7 @@ export interface ApiData {
   id: string;
   title: string;
   url: string;
-  imageHint: string;
-  imageUrl: string;
+  imageUrl?: string;
   steps: string[];
   notes: string;
   quotas?: string[];
@@ -33,10 +32,10 @@ const ApiCard = ({ api }: { api: ApiData }) => (
         </div>
         <div className="relative w-16 h-16 ml-4 overflow-hidden rounded-lg border-2 border-white/10" data-cms-id={`apis.image.${api.id}`}>
             <Image
-                src={api.imageUrl}
+                src={api.imageUrl || 'https://placehold.co/100x100'}
                 alt={`${api.title} logo`}
                 fill
-                data-ai-hint={api.imageHint}
+                data-ai-hint={api.title}
                 className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-3"
                 unoptimized
             />

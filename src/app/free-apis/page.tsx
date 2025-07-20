@@ -1,28 +1,20 @@
 
-import { generateWorkflowImage } from '@/ai/flows/generate-workflow-image';
 import { FreeApisClient } from './free-apis-client';
 import { freeApisContent } from '@/lib/content-structure';
 import type { ApiData } from './free-apis-client';
 
 export default async function FreeApisPage() {
-  const apiDataWithImages = await Promise.all(
-    freeApisContent.apis.map(async (api, index) => {
-      const imageUrl = await generateWorkflowImage({
-        name: api.title,
-        category: 'API',
-        complexity: 'Beginner', 
-      });
-      return {
-        ...api,
-        imageUrl,
-        id: `free-api-${index}`
-      };
-    })
-  );
+  const apiDataWithIds = freeApisContent.apis.map((api, index) => {
+    return {
+      ...api,
+      id: `free-api-${index}`,
+      imageUrl: api.imageUrl || `https://placehold.co/100x100/222222/FFFFFF.png?text=${api.title.charAt(0)}`,
+    };
+  });
 
   const pageData = {
     ...freeApisContent,
-    apis: apiDataWithImages,
+    apis: apiDataWithIds,
   };
 
   return <FreeApisClient apiPageData={pageData} />;
