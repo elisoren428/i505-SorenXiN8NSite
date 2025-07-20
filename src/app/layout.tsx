@@ -3,11 +3,17 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
 import { Background } from '@/components/layout/background';
+import { AdminPanel } from '@/components/admin/admin-panel';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'SorenXi N8N Directory',
   description: 'A directory of N8N workflows with AI-powered enhancements.',
 };
+
+function AdminPanelLoader() {
+  return <AdminPanel />;
+}
 
 export default function RootLayout({
   children,
@@ -31,6 +37,9 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
         </div>
         <Toaster />
+        <Suspense fallback={null}>
+          <AdminPanelLoader />
+        </Suspense>
       </body>
     </html>
   );

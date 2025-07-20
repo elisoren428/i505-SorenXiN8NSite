@@ -26,9 +26,9 @@ const AnimatedOrb = ({ orbColors }: { orbColors: { stop1: string, stop2: string,
     <svg viewBox="0 0 200 200" className="w-full h-full">
       <defs>
         <radialGradient id="orb-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" style={{ stopColor: orbColors.stop1, stopOpacity: 1 }} />
-          <stop offset="70%" style={{ stopColor: orbColors.stop2, stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: orbColors.stop3, stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: orbColors.stop1, stopOpacity: 1 }} data-cms-id="homepage.hero.animatedOrb.colors.stop1" />
+          <stop offset="70%" style={{ stopColor: orbColors.stop2, stopOpacity: 1 }} data-cms-id="homepage.hero.animatedOrb.colors.stop2" />
+          <stop offset="100%" style={{ stopColor: orbColors.stop3, stopOpacity: 1 }} data-cms-id="homepage.hero.animatedOrb.colors.stop3" />
         </radialGradient>
       </defs>
       <circle cx="100" cy="100" r="80" fill="url(#orb-gradient)" className="pulsing-orb" />
@@ -110,11 +110,10 @@ export default function Home() {
       <div
         className="absolute inset-x-0 top-0 -z-10 flex h-full flex-col justify-start overflow-hidden"
         aria-hidden="true"
-        data-cms-id="homepage.background.text"
       >
         <div className="flex flex-col" style={{ lineHeight: '0.8' }}>
           {[...Array(4)].map((_, i) => (
-            <p key={i} className={`font-headline text-[10rem] sm:text-[14rem] md:text-[18rem] font-normal ${i === 1 ? 'text-white/[.15]' : 'text-white/5'}`}>
+            <p key={i} className={`font-headline text-[10rem] sm:text-[14rem] md:text-[18rem] font-normal ${i === 1 ? 'text-white/[.15]' : 'text-white/5'}`} data-cms-id="homepage.backgroundText">
               {content.backgroundText}
             </p>
           ))}
@@ -131,13 +130,14 @@ export default function Home() {
             {/* Left Column Text */}
             <div className="text-center lg:text-left lg:col-span-2">
                <div className="relative inline-block">
-                <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline" data-cms-id="homepage.main.title">
-                  <span className="text-primary">{content.main.title.highlight}</span>
-                  <span> {content.main.title.rest}</span>
+                <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
+                  <span className="text-primary" data-cms-id="homepage.main.title.highlight">{content.main.title.highlight}</span>
+                  <span data-cms-id="homepage.main.title.rest"> {content.main.title.rest}</span>
                 </h1>
                 <div className="relative lg:absolute w-full text-center lg:text-right mt-1">
-                  <p className="text-sm text-gray-300 whitespace-nowrap" data-cms-id="homepage.main.subtitle">
-                    {content.main.subtitle.part1} <span className="text-primary">{content.main.subtitle.part2}</span>
+                  <p className="text-sm text-gray-300 whitespace-nowrap">
+                    <span data-cms-id="homepage.main.subtitle.part1">{content.main.subtitle.part1} </span> 
+                    <span className="text-primary" data-cms-id="homepage.main.subtitle.part2">{content.main.subtitle.part2}</span>
                   </p>
                 </div>
               </div>
@@ -145,7 +145,7 @@ export default function Home() {
 
 
             {/* Right Column Hero Card */}
-            <div className="relative lg:col-span-3 rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 min-h-[400px] border-4 border-blue-950" data-cms-id="homepage.hero.card">
+            <div className="relative lg:col-span-3 rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 min-h-[400px]" data-cms-id="homepage.hero">
               <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20 anim-led"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20 anim-led" style={{ animationDelay: '1.67s' }}></div>
@@ -163,7 +163,7 @@ export default function Home() {
                      <div className="inline-block rounded-md bg-gradient-to-r from-orange-500 to-orange-800 p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                         <Button asChild size="lg" className="font-bold bg-orange-700 hover:bg-orange-600 text-white rounded-sm" data-cms-id="homepage.hero.button">
                             <Link href={content.hero.button.href}>
-                              {content.hero.button.text}
+                              <span data-cms-id="homepage.hero.button.text">{content.hero.button.text}</span>
                               <ArrowRight className="ml-2" />
                             </Link>
                         </Button>

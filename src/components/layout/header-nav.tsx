@@ -19,7 +19,7 @@ export function HeaderNav() {
             'text-lg font-medium transition-colors hover:text-primary',
             pathname === item.href ? 'text-primary' : 'text-muted-foreground'
           )}
-          data-cms-id={`header.nav.${index}`}
+          data-cms-id={`header.navItems.${index}`}
         >
           {item.label}
         </Link>
