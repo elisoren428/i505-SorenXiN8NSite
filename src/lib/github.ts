@@ -42,12 +42,11 @@ function assignComplexity(nodeCount: number): string {
   return 'Advanced';
 }
 
-async function fetchWorkflow(fileName: string): Promise<N8NWorkflow | null> {
-  const safeFileName = fileName.endsWith('.json') ? fileName : `${fileName}.json`;
-  const fileUrl = `${API_URL}/${safeFileName}`;
+async function fetchAndProcessWorkflow(file: GithubContent): Promise<N8NWorkflow | null> {
+  if (!file.download_url) return null;
 
   try {
-    const response = await fetch(fileUrl, {
+    const response = await fetch(file.download_url, {
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: 'application/vnd.github.raw',
@@ -55,14 +54,13 @@ async function fetchWorkflow(fileName: string): Promise<N8NWorkflow | null> {
     });
 
     if (!response.ok) {
-      console.error(`Failed to fetch workflow ${safeFileName} from GitHub:`, response.status, response.statusText);
+      console.error(`Failed to fetch workflow content for ${file.name}:`, response.statusText);
       return null;
     }
+    
+    const workflowData: N8NWorkflow = await response.json();
 
-    const fileContent = await response.text();
-    const workflowData: N8NWorkflow = JSON.parse(fileContent);
-
-    workflowData.id = fileName.replace('.json', '');
+    workflowData.id = file.name.replace('.json', '');
     workflowData.complexity = assignComplexity(workflowData.nodes.length);
     workflowData.category = assignCategory(workflowData.name);
 
@@ -77,13 +75,14 @@ async function fetchWorkflow(fileName: string): Promise<N8NWorkflow | null> {
     workflowData.tags = Array.from(tags).slice(0, 3);
 
     return workflowData;
+
   } catch (error) {
-    console.error(`Error fetching or parsing workflow ${safeFileName}:`, error);
+    console.error(`Error processing workflow file ${file.name}:`, error);
     return null;
   }
 }
 
-async function fetchWorkflowsFromGitHub(): Promise<N8NWorkflow[]> {
+const fetchAllWorkflows = async (): Promise<N8NWorkflow[]> => {
   try {
     const response = await fetch(API_URL, {
       headers: {
@@ -101,53 +100,60 @@ async function fetchWorkflowsFromGitHub(): Promise<N8NWorkflow[]> {
 
     const contents: GithubContent[] = await response.json();
     if (!Array.isArray(contents)) {
-      console.error('Invalid data received from GitHub API, expected an array.');
+      console.error('Invalid data received from GitHub API, expected an array of files.');
       return [];
     }
 
     const workflowFiles = contents.filter((item) => item.type === 'file' && item.name.endsWith('.json'));
 
-    const workflowPromises = workflowFiles.map((file) => getWorkflow(file.name.replace('.json', '')));
-    const workflows = (await Promise.all(workflowPromises)).filter((p): p is N8NWorkflow => p !== null);
+    const workflowPromises = workflowFiles.map(fetchAndProcessWorkflow);
+    const workflows = (await Promise.all(workflowPromises)).filter((wf): wf is N8NWorkflow => wf !== null);
 
     return workflows;
   } catch (error) {
-    console.error('Error fetching workflows:', error);
+    console.error('Error fetching workflows from GitHub:', error);
     return [];
   }
-}
+};
 
-async function fetchWorkflowStats(): Promise<WorkflowStats> {
-  const workflows = await fetchWorkflowsFromGitHub(); // Direct call to uncached function
-  const workflowCount = workflows.length;
+export const getWorkflows = cache(
+    async () => fetchAllWorkflows(),
+    ['all-workflows'],
+    { revalidate: 3600 }
+);
 
-  if (workflowCount === 0) {
-    return { workflowCount: 0, nodeCount: 0, integrationCount: 0 };
-  }
+export const getWorkflow = cache(async (id: string): Promise<N8NWorkflow | null> => {
+  const workflows = await getWorkflows();
+  return workflows.find((wf) => wf.id === id) || null;
+}, ['single-workflow'], { revalidate: 3600 });
 
-  let nodeCount = 0;
-  const integrationTypes = new Set<string>();
 
-  workflows.forEach((workflow) => {
-    if (workflow && Array.isArray(workflow.nodes)) {
-      nodeCount += workflow.nodes.length;
-      workflow.nodes.forEach((node) => {
-        if (node.type.startsWith('n8n-nodes-base.')) return;
+export const getWorkflowStats = cache(async (): Promise<WorkflowStats> => {
+    const workflows = await getWorkflows();
+    const workflowCount = workflows.length;
 
-        const integrationName = node.type.replace(/^n8n-nodes-/, '').split('.')[0];
-        integrationTypes.add(integrationName);
-      });
+    if (workflowCount === 0) {
+        return { workflowCount: 0, nodeCount: 0, integrationCount: 0 };
     }
-  });
 
-  return {
-    workflowCount,
-    nodeCount,
-    integrationCount: integrationTypes.size,
-  };
-}
+    let nodeCount = 0;
+    const integrationTypes = new Set<string>();
 
-// Cached functions that wrap the actual data fetching logic
-export const getWorkflows = cache(fetchWorkflowsFromGitHub, ['workflows'], { revalidate: 3600 });
-export const getWorkflow = cache(fetchWorkflow, ['workflow'], { revalidate: 3600 });
-export const getWorkflowStats = cache(fetchWorkflowStats, ['workflow-stats'], { revalidate: 3600 });
+    workflows.forEach((workflow) => {
+        if (workflow && Array.isArray(workflow.nodes)) {
+        nodeCount += workflow.nodes.length;
+        workflow.nodes.forEach((node) => {
+            if (node.type.startsWith('n8n-nodes-base.')) return;
+
+            const integrationName = node.type.replace(/^n8n-nodes-/, '').split('.')[0];
+            integrationTypes.add(integrationName);
+        });
+        }
+    });
+
+    return {
+        workflowCount,
+        nodeCount,
+        integrationCount: integrationTypes.size,
+    };
+}, ['workflow-stats'], { revalidate: 3600 });
