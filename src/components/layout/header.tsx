@@ -1,15 +1,18 @@
 
+'use client';
+
 import Link from 'next/link';
 import { BotMessageSquare } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { HeaderStats } from './header-stats';
 import { HeaderNav } from './header-nav';
 import { HeaderMobileNav } from './header-mobile-nav';
-import { headerContent } from '@/lib/content-structure';
 import { Button } from '@/components/ui/button';
+import { useContent } from '@/context/content-context';
 
 export function Header() {
-  const content = headerContent;
+  const { content } = useContent();
+  const pageContent = content.headerContent;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -20,8 +23,8 @@ export function Header() {
               <BotMessageSquare className="h-8 w-8 text-primary" />
             </Link>
             <Link href="/">
-              <h1 className="font-sans text-xl font-bold tracking-wide text-white" data-cms-id="header.title">
-                {content.title}
+              <h1 className="font-sans text-xl font-bold tracking-wide text-white" data-cms-id="headerContent.title">
+                {pageContent.title}
               </h1>
             </Link>
           </div>
@@ -34,8 +37,8 @@ export function Header() {
         <div className="hidden md:flex items-center gap-6">
           <HeaderNav />
           <div className="flex items-center gap-4">
-            <Button variant="ghost" data-cms-id="header.buttons.signIn">{content.buttons.signIn}</Button>
-            <Button data-cms-id="header.buttons.signUp">{content.buttons.signUp}</Button>
+            <Button variant="ghost" data-cms-id="headerContent.buttons.signIn">{pageContent.buttons.signIn}</Button>
+            <Button data-cms-id="headerContent.buttons.signUp">{pageContent.buttons.signUp}</Button>
           </div>
         </div>
 

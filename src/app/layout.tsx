@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -5,6 +6,7 @@ import { Header } from '@/components/layout/header';
 import { Background } from '@/components/layout/background';
 import { AdminPanel } from '@/components/admin/admin-panel';
 import { Suspense } from 'react';
+import { ContentProvider } from '@/context/content-context';
 
 export const metadata: Metadata = {
   title: 'SorenXi N8N Directory',
@@ -31,15 +33,17 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <Background />
-        <div className="relative z-10 flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-        </div>
-        <Toaster />
-        <Suspense fallback={null}>
-          <AdminPanelLoader />
-        </Suspense>
+        <ContentProvider>
+          <Background />
+          <div className="relative z-10 flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+          </div>
+          <Toaster />
+          <Suspense fallback={null}>
+            <AdminPanelLoader />
+          </Suspense>
+        </ContentProvider>
       </body>
     </html>
   );

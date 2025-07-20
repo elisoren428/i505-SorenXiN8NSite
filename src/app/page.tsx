@@ -4,10 +4,10 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { homepageContent, type PageContent } from '@/lib/content-structure';
+import { useContent } from '@/context/content-context';
 
 const AnimatedOrb = ({ orbColors }: { orbColors: { stop1: string, stop2: string, stop3: string }}) => (
-  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3/5 h-[120%] flex items-center justify-center" data-cms-id="homepage.hero.animatedOrb">
+  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3/5 h-[120%] flex items-center justify-center" data-cms-id="homepageContent.hero.animatedOrb">
     <style jsx>{`
         @keyframes pulse {
           0%, 100% {
@@ -26,9 +26,9 @@ const AnimatedOrb = ({ orbColors }: { orbColors: { stop1: string, stop2: string,
     <svg viewBox="0 0 200 200" className="w-full h-full">
       <defs>
         <radialGradient id="orb-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" style={{ stopColor: orbColors.stop1, stopOpacity: 1 }} data-cms-id="homepage.hero.animatedOrb.colors.stop1" />
-          <stop offset="70%" style={{ stopColor: orbColors.stop2, stopOpacity: 1 }} data-cms-id="homepage.hero.animatedOrb.colors.stop2" />
-          <stop offset="100%" style={{ stopColor: orbColors.stop3, stopOpacity: 1 }} data-cms-id="homepage.hero.animatedOrb.colors.stop3" />
+          <stop offset="0%" style={{ stopColor: orbColors.stop1, stopOpacity: 1 }} data-cms-id="homepageContent.hero.animatedOrb.colors.stop1" />
+          <stop offset="70%" style={{ stopColor: orbColors.stop2, stopOpacity: 1 }} data-cms-id="homepageContent.hero.animatedOrb.colors.stop2" />
+          <stop offset="100%" style={{ stopColor: orbColors.stop3, stopOpacity: 1 }} data-cms-id="homepageContent.hero.animatedOrb.colors.stop3" />
         </radialGradient>
       </defs>
       <circle cx="100" cy="100" r="80" fill="url(#orb-gradient)" className="pulsing-orb" />
@@ -83,7 +83,8 @@ const AutomationGraphic = () => (
 );
 
 export default function Home() {
-  const content = homepageContent;
+  const { content } = useContent();
+  const pageContent = content.homepageContent;
 
   return (
     <div className="container mx-auto px-4">
@@ -113,8 +114,8 @@ export default function Home() {
       >
         <div className="flex flex-col" style={{ lineHeight: '0.8' }}>
           {[...Array(4)].map((_, i) => (
-            <p key={i} className={`font-headline text-[10rem] sm:text-[14rem] md:text-[18rem] font-normal ${i === 1 ? 'text-white/[.15]' : 'text-white/5'}`} data-cms-id="homepage.backgroundText">
-              {content.backgroundText}
+            <p key={i} className={`font-headline text-[10rem] sm:text-[14rem] md:text-[18rem] font-normal ${i === 1 ? 'text-white/[.15]' : 'text-white/5'}`} data-cms-id="homepageContent.backgroundText">
+              {pageContent.backgroundText}
             </p>
           ))}
         </div>
@@ -131,13 +132,13 @@ export default function Home() {
             <div className="text-center lg:text-left lg:col-span-2">
                <div className="relative inline-block">
                 <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline">
-                  <span className="text-primary" data-cms-id="homepage.main.title.highlight">{content.main.title.highlight}</span>
-                  <span data-cms-id="homepage.main.title.rest"> {content.main.title.rest}</span>
+                  <span className="text-primary" data-cms-id="homepageContent.main.title.highlight">{pageContent.main.title.highlight}</span>
+                  <span data-cms-id="homepageContent.main.title.rest"> {pageContent.main.title.rest}</span>
                 </h1>
                 <div className="relative lg:absolute w-full text-center lg:text-right mt-1">
                   <p className="text-sm text-gray-300 whitespace-nowrap">
-                    <span data-cms-id="homepage.main.subtitle.part1">{content.main.subtitle.part1} </span> 
-                    <span className="text-primary" data-cms-id="homepage.main.subtitle.part2">{content.main.subtitle.part2}</span>
+                    <span data-cms-id="homepageContent.main.subtitle.part1">{pageContent.main.subtitle.part1} </span> 
+                    <span className="text-primary" data-cms-id="homepageContent.main.subtitle.part2">{pageContent.main.subtitle.part2}</span>
                   </p>
                 </div>
               </div>
@@ -145,7 +146,7 @@ export default function Home() {
 
 
             {/* Right Column Hero Card */}
-            <div className="relative lg:col-span-3 rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 min-h-[400px]" data-cms-id="homepage.hero">
+            <div className="relative lg:col-span-3 rounded-3xl overflow-hidden bg-[radial-gradient(ellipse_80%_80%_at_25%_25%,_var(--tw-gradient-stops))] from-blue-600/95 via-blue-900/80 to-blue-950/95 p-1 shadow-2xl shadow-blue-500/20 min-h-[400px]" data-cms-id="homepageContent.hero">
               <div className="absolute top-4 right-4 z-20 flex items-center space-x-2">
                  <div className="w-3 h-3 rounded-full bg-white/20 anim-led"></div>
                  <div className="w-3 h-3 rounded-full bg-white/20 anim-led" style={{ animationDelay: '1.67s' }}></div>
@@ -154,16 +155,16 @@ export default function Home() {
 
               <div className="relative h-full flex items-center p-8 sm:p-10">
                 <div className="lg:w-1/2 z-10">
-                  <p className="font-bold text-sm text-white/80 uppercase tracking-widest" data-cms-id="homepage.hero.brandName">{content.hero.brandName}</p>
-                  <h2 className="mt-2 font-headline text-7xl sm:text-8xl font-bold text-white text-3d" data-cms-id="homepage.hero.title">{content.hero.title}</h2>
-                  <p className="mt-4 text-white/90 text-base max-w-sm" data-cms-id="homepage.hero.description">
-                    {content.hero.description}
+                  <p className="font-bold text-sm text-white/80 uppercase tracking-widest" data-cms-id="homepageContent.hero.brandName">{pageContent.hero.brandName}</p>
+                  <h2 className="mt-2 font-headline text-7xl sm:text-8xl font-bold text-white text-3d" data-cms-id="homepageContent.hero.title">{pageContent.hero.title}</h2>
+                  <p className="mt-4 text-white/90 text-base max-w-sm" data-cms-id="homepageContent.hero.description">
+                    {pageContent.hero.description}
                   </p>
                   <div className="mt-8">
                      <div className="inline-block rounded-md bg-gradient-to-r from-orange-500 to-orange-800 p-[2px] shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
-                        <Button asChild size="lg" className="font-bold bg-orange-700 hover:bg-orange-600 text-white rounded-sm" data-cms-id="homepage.hero.button">
-                            <Link href={content.hero.button.href}>
-                              <span data-cms-id="homepage.hero.button.text">{content.hero.button.text}</span>
+                        <Button asChild size="lg" className="font-bold bg-orange-700 hover:bg-orange-600 text-white rounded-sm" data-cms-id="homepageContent.hero.button">
+                            <Link href={pageContent.hero.button.href}>
+                              <span data-cms-id="homepageContent.hero.button.text">{pageContent.hero.button.text}</span>
                               <ArrowRight className="ml-2" />
                             </Link>
                         </Button>
@@ -171,7 +172,7 @@ export default function Home() {
                    </div>
                 </div>
                 
-                <AnimatedOrb orbColors={content.hero.animatedOrb.colors} />
+                <AnimatedOrb orbColors={pageContent.hero.animatedOrb.colors} />
               </div>
             </div>
 

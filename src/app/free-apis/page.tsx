@@ -1,10 +1,13 @@
 
+'use client';
 import { FreeApisClient } from './free-apis-client';
-import { freeApisContent } from '@/lib/content-structure';
+import { useContent } from '@/context/content-context';
 import type { ApiData } from './free-apis-client';
 
-export default async function FreeApisPage() {
-  const apiDataWithIds = freeApisContent.apis.map((api, index) => {
+export default function FreeApisPage() {
+  const { content } = useContent();
+
+  const apiDataWithIds = content.freeApisContent.apis.map((api, index) => {
     return {
       ...api,
       id: `free-api-${index}`,
@@ -13,7 +16,7 @@ export default async function FreeApisPage() {
   });
 
   const pageData = {
-    ...freeApisContent,
+    ...content.freeApisContent,
     apis: apiDataWithIds,
   };
 

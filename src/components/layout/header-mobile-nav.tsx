@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Menu, X, BotMessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { headerContent } from '@/lib/content-structure';
+import { useContent } from '@/context/content-context';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -14,7 +14,8 @@ import { Separator } from '../ui/separator';
 export function HeaderMobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const { title, navItems, buttons } = headerContent;
+  const { content } = useContent();
+  const { title, navItems, buttons } = content.headerContent;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -32,7 +33,7 @@ export function HeaderMobileNav() {
                     <BotMessageSquare className="h-8 w-8 text-primary" />
                 </Link>
                 <Link href="/" onClick={() => setIsOpen(false)}>
-                    <span className="font-bold text-lg" data-cms-id="header.title">{title}</span>
+                    <span className="font-bold text-lg" data-cms-id="headerContent.title">{title}</span>
                 </Link>
             </div>
             <SheetClose asChild>
@@ -52,7 +53,7 @@ export function HeaderMobileNav() {
                   'text-lg font-medium transition-colors hover:text-primary',
                   pathname === item.href ? 'text-primary' : 'text-muted-foreground'
                 )}
-                data-cms-id={`header.navItems.${index}`}
+                data-cms-id={`headerContent.navItems.${index}`}
               >
                 {item.label}
               </Link>
@@ -63,10 +64,10 @@ export function HeaderMobileNav() {
           
           <div className="mt-auto flex flex-col gap-4 pt-6">
             <Button variant="ghost" asChild>
-                <Link href="#" onClick={() => setIsOpen(false)} data-cms-id="header.buttons.signIn">{buttons.signIn}</Link>
+                <Link href="#" onClick={() => setIsOpen(false)} data-cms-id="headerContent.buttons.signIn">{buttons.signIn}</Link>
             </Button>
             <Button asChild>
-                <Link href="#" onClick={() => setIsOpen(false)} data-cms-id="header.buttons.signUp">{buttons.signUp}</Link>
+                <Link href="#" onClick={() => setIsOpen(false)} data-cms-id="headerContent.buttons.signUp">{buttons.signUp}</Link>
             </Button>
           </div>
         </div>
