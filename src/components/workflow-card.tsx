@@ -98,4 +98,3 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
     </div>
   );
 }
-
