@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { BotMessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,8 +28,8 @@ export function Header() {
         <div className="flex items-center gap-6">
           <HeaderNav />
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" data-cms-id="header.buttons.signIn">Sign In</Button>
-            <Button data-cms-id="header.buttons.signUp">Sign Up</Button>
+            <Button variant="ghost" data-cms-id="header.buttons.signIn">{content.buttons.signIn}</Button>
+            <Button data-cms-id="header.buttons.signUp">{content.buttons.signUp}</Button>
           </div>
         </div>
       </div>

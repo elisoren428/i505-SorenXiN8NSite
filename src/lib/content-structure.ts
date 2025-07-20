@@ -67,6 +67,10 @@ export interface NavItem {
 export interface HeaderContent {
   title: string;
   navItems: NavItem[];
+  buttons: {
+    signIn: string;
+    signUp: string;
+  }
 }
 
 export const headerContent: HeaderContent = {
@@ -77,4 +81,8 @@ export const headerContent: HeaderContent = {
     { href: '/ai-tagger', label: 'AI Tagger' },
     { href: '/free-apis', label: 'Free APIs' },
   ],
+  buttons: {
+    signIn: 'Sign In',
+    signUp: 'Sign Up',
+  }
 };
