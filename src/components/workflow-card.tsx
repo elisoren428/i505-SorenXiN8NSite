@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,7 +14,7 @@ interface WorkflowCardProps {
   workflow: N8NWorkflow;
 }
 
-const fallbackImages = [
+const staticImages = [
     'https://cdn.pixabay.com/photo/2021/07/14/14/00/potato-chips-6466146_1280.jpg',
     'https://cdn.pixabay.com/photo/2018/04/19/14/42/boeing-777-300-3333276_1280.png',
     'https://cdn.pixabay.com/photo/2014/11/25/16/32/drop-545377_1280.jpg',
@@ -95,19 +95,12 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
   
-  const initialImageUrl = `/api/workflow-image/${workflowId}.png?name=${encodeURIComponent(cleanTitle)}&category=${encodeURIComponent(workflow.category || 'Other')}&complexity=${encodeURIComponent(workflow.complexity || 'Unknown')}`;
-  
-  const [imageUrl, setImageUrl] = useState(initialImageUrl);
-  const [isFallback, setIsFallback] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const handleError = () => {
-    // To prevent an infinite loop if the fallback also fails
-    if (!isFallback) {
-        const randomIndex = Math.floor(Math.random() * fallbackImages.length);
-        setImageUrl(fallbackImages[randomIndex]);
-        setIsFallback(true);
-    }
-  };
+  useEffect(() => {
+    // This runs only on the client, after hydration, preventing a server/client mismatch.
+    setImageUrl(staticImages[Math.floor(Math.random() * staticImages.length)]);
+  }, []);
 
 
   const getComplexityColor = (complexity: string) => {
@@ -123,6 +116,26 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
     }
   };
 
+  if (!imageUrl) {
+    // Render a skeleton or a placeholder while the client-side effect runs
+    return (
+        <Card className="group flex flex-col h-full w-full max-w-[300px] mx-auto overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
+           <div className="relative h-40 w-full bg-muted animate-pulse"></div>
+           <CardContent className="p-4 flex flex-col flex-grow">
+                <div className="h-6 w-3/4 bg-muted animate-pulse rounded-md"></div>
+                <div className="h-10 w-full bg-muted animate-pulse rounded-md mt-2"></div>
+                <div className="mt-4 flex justify-between items-center">
+                    <div className="flex gap-2">
+                        <div className="h-5 w-12 bg-muted animate-pulse rounded-full"></div>
+                        <div className="h-5 w-12 bg-muted animate-pulse rounded-full"></div>
+                    </div>
+                    <div className="h-9 w-24 bg-muted animate-pulse rounded-md"></div>
+                </div>
+            </CardContent>
+        </Card>
+    );
+  }
+
   return (
     <Card className="group flex flex-col h-full w-full max-w-[300px] mx-auto overflow-hidden rounded-lg bg-card/60 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-primary/20 will-change-transform">
       <Link href={`/workflows/${workflowId}`} className="block">
@@ -133,8 +146,7 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-300 group-hover:scale-110"
-            onError={handleError}
-            unoptimized={isFallback} // Prevents Next.js from trying to optimize external fallback images
+            unoptimized // Prevents Next.js from trying to optimize external images
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
           <Badge

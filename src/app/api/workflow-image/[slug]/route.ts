@@ -1,10 +1,12 @@
 
+
 import { generateWorkflowImage } from '@/ai/flows/generate-workflow-image';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const revalidate = 604800; // 7 days
 
-// A curated list of high-quality, relevant fallback images
+// This route is no longer the primary source for images but is kept for potential future use.
+// The primary logic is now in the WorkflowCard component.
 const fallbackImages = [
     'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg', // Abstract AI/Tech
     'https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg', // Abstract network
