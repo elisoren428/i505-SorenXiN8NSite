@@ -27,8 +27,7 @@ export default async function WorkflowsPage() {
           <h1 
             className="font-sans text-5xl font-bold tracking-tight sm:text-7xl"
             style={{
-              color: '#804A65', // A base color from your screenshot's theme
-              textShadow: '0 0 2px #F67717, 0 0 2px #F67717, 0 0 2px #F67717, 0 0 2px #F67717, 0 0 2px #F67717, 0 0 3px #F67717, 0 0 4px #F67717, 0 0 5px #F67717, 0 0 6px #F67717, 0 0 8px #F67717',
+              textShadow: '0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)), 0 0 15px hsl(var(--primary)), 0 0 20px hsl(var(--primary))',
             }}
             >
             Workflow Directory
