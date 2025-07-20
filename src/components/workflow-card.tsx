@@ -66,18 +66,16 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
         <div className="flex items-start gap-2">
             <Hash className="mt-1 h-5 w-5 shrink-0 text-primary"/>
             <div className="flex-1">
-                <div className="h-[3.25rem] overflow-hidden">
-                    <h3 className="font-headline text-xl leading-tight text-white">
-                        {cleanTitle}
-                    </h3>
-                </div>
-                <div className="mt-1 flex gap-2 overflow-hidden">
-                  {(workflow.tags || []).slice(0, 2).map((tag) => (
-                    <Badge key={tag} variant="outline" className="truncate text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
+              <h3 className="font-headline text-xl leading-tight text-white line-clamp-2">
+                  {cleanTitle}
+              </h3>
+              <div className="mt-1 flex gap-2 overflow-hidden">
+                {(workflow.tags || []).slice(0, 2).map((tag) => (
+                  <Badge key={tag} variant="outline" className="truncate text-xs">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </div>
         </div>
         
