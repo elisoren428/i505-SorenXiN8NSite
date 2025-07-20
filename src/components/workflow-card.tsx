@@ -66,7 +66,7 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
         <div className="flex items-start gap-2">
             <Hash className="mt-1 h-5 w-5 shrink-0 text-primary"/>
             <div className="flex-1">
-                <h3 className="font-headline text-2xl leading-tight text-white h-[3.25rem] line-clamp-2">
+                <h3 className="font-headline text-xl leading-tight text-white h-[3.25rem] line-clamp-2 break-words">
                   {cleanTitle}
                 </h3>
                 <div className="mt-1 flex gap-2 overflow-hidden">
