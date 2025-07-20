@@ -13,7 +13,7 @@ export async function getWorkflow(id: string): Promise<N8NWorkflow | null> {
     if (!workflowData) {
         return null;
     }
-    return processWorkflow(workflowData, fileContent.name);
+    return processWorkflow(workflowData, fileContent);
 }
 
 export async function getWorkflows(): Promise<N8NWorkflow[]> {

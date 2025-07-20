@@ -5,13 +5,27 @@ import type { N8NWorkflow, N8NNode } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Wand2, Loader2, ClipboardCopy } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Wand2, Loader2, ClipboardCopy, Download } from 'lucide-react';
 import { handleSuggestImprovements, handleAutoFix } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
 interface WorkflowDetailClientProps {
   workflow: N8NWorkflow;
 }
+
+const InstructionsTooltipContent = () => (
+    <div className="p-2 text-sm">
+        <h4 className="font-bold mb-2">How to use in n8n:</h4>
+        <ol className="list-decimal list-inside space-y-1">
+            <li>Open your local or cloud n8n instance.</li>
+            <li>Click the menu (≡) → Import from File.</li>
+            <li>Select the JSON file you just downloaded.</li>
+            <li>Modify it as needed, then save it!</li>
+        </ol>
+    </div>
+);
 
 export function WorkflowDetailClient({ workflow: initialWorkflow }: WorkflowDetailClientProps) {
   const [workflow, setWorkflow] = useState<N8NWorkflow>(initialWorkflow);
@@ -86,8 +100,29 @@ export function WorkflowDetailClient({ workflow: initialWorkflow }: WorkflowDeta
       <div className="lg:col-span-2 space-y-6">
         <Card className="bg-card/50 backdrop-blur-sm border-white/10">
           <CardHeader>
-            <CardTitle className="font-headline text-5xl tracking-wide">{workflow.name}</CardTitle>
-            <CardDescription>Created: {new Date(workflow.createdAt).toLocaleDateString()}</CardDescription>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle className="font-headline text-5xl tracking-wide">{workflow.name}</CardTitle>
+                <CardDescription>Created: {new Date(workflow.createdAt).toLocaleDateString()}</CardDescription>
+              </div>
+              {workflow.downloadUrl && (
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                             <Button asChild>
+                                <Link href={workflow.downloadUrl} download={`${workflow.id}.json`}>
+                                    <Download className="mr-2 h-4 w-4" />
+                                    Download for n8n
+                                </Link>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                           <InstructionsTooltipContent />
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
              <div className="relative group">

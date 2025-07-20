@@ -129,11 +129,12 @@ function assignComplexity(nodeCount: number): string {
   return 'Advanced';
 }
 
-export function processWorkflow(workflowData: N8NWorkflow, fileName: string): N8NWorkflow {
-    const workflowId = fileName.replace('.json', '');
+export function processWorkflow(workflowData: N8NWorkflow, file: Pick<GithubContent, 'name' | 'download_url'>): N8NWorkflow {
+    const workflowId = file.name.replace('.json', '');
     workflowData.id = workflowId;
     workflowData.complexity = assignComplexity(workflowData.nodes.length);
     workflowData.category = assignCategory(workflowData.name);
+    workflowData.downloadUrl = file.download_url || undefined;
 
     const tags = new Set<string>();
     workflowData.nodes.forEach(node => {
@@ -200,7 +201,7 @@ export async function getWorkflows(): Promise<N8NWorkflow[]> {
         try {
             const workflowData = await fetchJson<N8NWorkflow>(file.download_url);
             if (workflowData) {
-                return processWorkflow(workflowData, file.name);
+                return processWorkflow(workflowData, { name: file.name, download_url: file.download_url });
             }
             return null;
         } catch (error) {

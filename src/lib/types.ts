@@ -21,6 +21,7 @@ export interface N8NWorkflow {
   complexity?: string;
   category?: string;
   imageUrl?: string;
+  downloadUrl?: string;
 }
 
 export interface GithubContent {
