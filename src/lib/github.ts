@@ -42,7 +42,7 @@ function assignComplexity(nodeCount: number): string {
   return 'Advanced';
 }
 
-async function fetchAndProcessWorkflow(file: GithubContent): Promise<N8NWorkflow | null> {
+async function fetchWorkflowContent(file: GithubContent): Promise<N8NWorkflow | null> {
   if (!file.download_url) return null;
 
   try {
@@ -82,49 +82,67 @@ async function fetchAndProcessWorkflow(file: GithubContent): Promise<N8NWorkflow
   }
 }
 
-const fetchAllWorkflows = async (): Promise<N8NWorkflow[]> => {
+// Fetches the list of files, which is small and cacheable.
+const getWorkflowFiles = cache(
+  async (): Promise<GithubContent[]> => {
+    try {
+      const response = await fetch(API_URL, {
+        headers: {
+          Authorization: `token ${process.env.GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
+      });
+
+      if (!response.ok) {
+        console.error('Failed to fetch workflows list from GitHub:', response.status, response.statusText);
+        const errorBody = await response.text();
+        console.error('GitHub API Response:', errorBody);
+        return [];
+      }
+
+      const contents: GithubContent[] = await response.json();
+      if (!Array.isArray(contents)) {
+        console.error('Invalid data received from GitHub API, expected an array of files.');
+        return [];
+      }
+      return contents.filter((item) => item.type === 'file' && item.name.endsWith('.json'));
+    } catch (error) {
+      console.error('Error fetching workflow files from GitHub:', error);
+      return [];
+    }
+  },
+  ['workflow-files'],
+  { revalidate: 3600 }
+);
+
+export async function getWorkflows(): Promise<N8NWorkflow[]> {
+  const workflowFiles = await getWorkflowFiles();
+  
+  const workflowPromises = workflowFiles.map(file => fetchWorkflowContent(file));
+  
+  const workflows = (await Promise.all(workflowPromises)).filter((wf): wf is N8NWorkflow => wf !== null);
+  
+  return workflows;
+}
+
+export const getWorkflow = cache(async (id: string): Promise<N8NWorkflow | null> => {
+  const fileUrl = `${API_URL}/${id}.json`;
+
   try {
-    const response = await fetch(API_URL, {
+    const fileMetaResponse = await fetch(fileUrl, {
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: 'application/vnd.github.v3+json',
       },
     });
+    if (!fileMetaResponse.ok) return null;
+    const file: GithubContent = await fileMetaResponse.json();
 
-    if (!response.ok) {
-      console.error('Failed to fetch workflows list from GitHub:', response.status, response.statusText);
-      const errorBody = await response.text();
-      console.error('GitHub API Response:', errorBody);
-      return [];
-    }
-
-    const contents: GithubContent[] = await response.json();
-    if (!Array.isArray(contents)) {
-      console.error('Invalid data received from GitHub API, expected an array of files.');
-      return [];
-    }
-
-    const workflowFiles = contents.filter((item) => item.type === 'file' && item.name.endsWith('.json'));
-
-    const workflowPromises = workflowFiles.map(fetchAndProcessWorkflow);
-    const workflows = (await Promise.all(workflowPromises)).filter((wf): wf is N8NWorkflow => wf !== null);
-
-    return workflows;
+    return await fetchWorkflowContent(file);
   } catch (error) {
-    console.error('Error fetching workflows from GitHub:', error);
-    return [];
+    console.error(`Error fetching single workflow ${id}:`, error);
+    return null;
   }
-};
-
-export const getWorkflows = cache(
-    async () => fetchAllWorkflows(),
-    ['all-workflows'],
-    { revalidate: 3600 }
-);
-
-export const getWorkflow = cache(async (id: string): Promise<N8NWorkflow | null> => {
-  const workflows = await getWorkflows();
-  return workflows.find((wf) => wf.id === id) || null;
 }, ['single-workflow'], { revalidate: 3600 });
 
 
