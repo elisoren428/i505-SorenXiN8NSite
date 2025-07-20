@@ -2,7 +2,6 @@ import 'server-only';
 import { N8NWorkflow, GithubContent } from './types';
 import {unstable_cache as cache} from 'next/cache';
 
-const GITHUB_TOKEN = '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';
 const REPO_OWNER = 'elisoren428';
 const REPO_NAME = 'n8n-WorkFlow-Directory';
 const WORKFLOWS_PATH = 'workflows';
@@ -50,7 +49,7 @@ export const getWorkflows = cache(
     try {
       const response = await fetch(API_URL, {
         headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
+          Authorization: `token ${process.env.GITHUB_TOKEN}`,
           Accept: 'application/vnd.github.v3+json',
         },
       });
@@ -93,7 +92,7 @@ export async function getWorkflow(fileName: string): Promise<N8NWorkflow | null>
     try {
         const response = await fetch(fileUrl, {
             headers: {
-                Authorization: `token ${GITHUB_TOKEN}`,
+                Authorization: `token ${process.env.GITHUB_TOKEN}`,
                 Accept: 'application/vnd.github.raw',
             },
         });
