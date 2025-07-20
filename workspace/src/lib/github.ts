@@ -5,7 +5,7 @@ const REPO_NAME = 'n8n-WorkFlow-Directory';
 const WORKFLOWS_PATH = 'workflows';
 const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${WORKFLOWS_PATH}`;
 
-// Using the token directly to bypass environment loading issues.
+// This is NOT a good practice for production, but is used here to bypass environment loading issues.
 const GITHUB_TOKEN = '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';
 
 const GITHUB_HEADERS = {
