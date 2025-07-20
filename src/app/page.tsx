@@ -68,7 +68,7 @@ const AutomationGraphic = () => (
 
           {/* Icon - Brain/AI */}
           <g transform="translate(300, 350) scale(0.2)">
-            <path d="M63.5 13.2C59.2 8.3 53.2 5 46.2 5c-11 0-20 9-20 20 0 7.3 4 13.7 10 17.3.7.4 1.1 1.1 1.1 1.9v10c0 .8-.5 1.5-1.2 1.8-1.5.6-2.5 2-2.5 3.6 0 2.2 1.8 4 4 4h18c2.2 0 4-1.8 4-4 0-1.6-1-3-2.5-3.6-.7-.3-1.2-1-1.2-1.8v-10c0-.8.4-1.5 1.1-1.9 6-3.6 10-10 10-17.3 0-6.7-3-12.8-7.5-17.1zM46.2 57c-.8 0-1.5-.7-1.5-1.5v-10c0-2.2-1.8-4-4-4h-8c-2.2 0-4 1.8-4 4v10c0 .8-.7 1.5-1.5 1.5h-1.6c-.6 0-1.1.6-.9 1.2.6 1.7 2.2 3 4 3h14c1.8 0 3.4-1.3 4-3 .2-.6-.3-1.2-.9-1.2h-1.6zM56.2 40.2c-1.1 0-2-.9-2-2v-10c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1-.9 2-2 2h-8c-1.1 0-2-.9-2-2v-10c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1-.9 2-2 2h-1c-.8 0-1.5-.7-1.5-1.5 0-3.5 2.1-6.6 5.2-7.9.7-.3 1.2-1 1.2-1.8v-10c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v10c0 .8.5 1.5 1.2 1.8 3.1 1.3 5.2 4.4 5.2 7.9 0 .8-.7 1.5-1.5 1.5h-1z" fill="hsl(var(--primary))"/>
+            <path d="M63.5 13.2C59.2 8.3 53.2 5 46.2 5c-11 0-20 9-20 20 0 7.3 4 13.7 10 17.3.7.4 1.1 1.1 1.1 1.9v10c0 .8-.5 1.5-1.2 1.8-1.5.6-2.5 2-2.5 3.6 0 2.2 1.8 4 4 4h18c2.2 0 4-1.8 4-4 0-1.6-1-3-2.5-3.6-.7-.3-1.2-1-1.2-1.8v-10c0-.8.4-1.5 1.1-1.9 6-3.6 10-10 10-17.3 0-6.7-3-12.8-7.5-17.1zM46.2 57c-.8 0-1.5-.7-1.5-1.5v-10c0-2.2-1.8-4-4-4h-8c-2.2 0-4 1.8-4 4v10c0 .8-.7 1.5-1.5 1.5h-1.6c-.6 0-1.1.6-.9 1.2.6 1.7 2.2 3 4 3h14c1.8 0 3.4-1.3 4-3 .2-.6-.3-1.2-.9-1.2h-1.6zM56.2 40.2c-1.1 0-2-.9-2-2v-10c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1-.9 2-2 2h-8c-1.1 0-2-.9-2-2v-10c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1-.9 2-2 2h-1c-.8 0-1.5-.7-1.5-1.5 0-3.5 2.1-6.6 5.2-7.9.7-.3 1.2-1 1.2-1.8v-10c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v10c0 .8.5 1.5 1.2 1.8 3.1 1.3 5.2 4.4 5.2 7.9 0 .8-.7 1.5-1.5-1.5h-1z" fill="hsl(var(--primary))"/>
           </g>
            {/* Icon - API/Connection Block */}
           <g transform="translate(100, 150) scale(0.8)">
@@ -114,7 +114,7 @@ export default function Home() {
       >
         <div className="flex flex-col" style={{ lineHeight: '0.8' }}>
           {[...Array(4)].map((_, i) => (
-            <p key={i} className={`font-headline text-[18rem] font-normal ${i === 1 ? 'text-white/[.15]' : 'text-white/5'}`}>
+            <p key={i} className={`font-headline text-[10rem] sm:text-[14rem] md:text-[18rem] font-normal ${i === 1 ? 'text-white/[.15]' : 'text-white/5'}`}>
               {content.backgroundText}
             </p>
           ))}
@@ -125,17 +125,17 @@ export default function Home() {
       
       {/* New Foreground Content */}
       <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div className="mx-auto max-w-full py-16 sm:py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-center">
+        <div className="mx-auto max-w-screen-2xl py-16 sm:py-24 lg:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-center">
             
             {/* Left Column Text */}
-            <div className="text-left lg:col-span-2">
+            <div className="text-center lg:text-left lg:col-span-2">
                <div className="relative inline-block">
                 <h1 className="text-6xl font-bold tracking-tight sm:text-7xl font-headline" data-cms-id="homepage.main.title">
                   <span className="text-primary">{content.main.title.highlight}</span>
                   <span> {content.main.title.rest}</span>
                 </h1>
-                <div className="absolute w-full text-right mt-1">
+                <div className="relative lg:absolute w-full text-center lg:text-right mt-1">
                   <p className="text-sm text-gray-300 whitespace-nowrap" data-cms-id="homepage.main.subtitle">
                     {content.main.subtitle.part1} <span className="text-primary">{content.main.subtitle.part2}</span>
                   </p>
