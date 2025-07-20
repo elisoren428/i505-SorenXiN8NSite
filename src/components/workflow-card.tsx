@@ -46,8 +46,51 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
   };
 
   return (
-    <div className="group w-full max-w-[300px] rounded-xl bg-card/50 p-1 border border-white/10 shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-primary/20">
-      <Card className="h-full w-full flex flex-col overflow-hidden rounded-lg bg-card/70 border border-transparent transition-colors duration-300 group-hover:border-primary/50">
+    <>
+    <style jsx>{`
+      .card-frame {
+        position: relative;
+        background-color: hsl(var(--card));
+        border-radius: 0.8rem; /* Slightly larger than the inner card's radius */
+        padding: 2px; /* This controls the border thickness */
+        transition: all 0.3s ease-in-out;
+      }
+
+      .card-frame::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: inherit;
+        background: conic-gradient(from 180deg at 50% 50%, hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
+        z-index: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      .card-frame:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+      }
+      
+      .card-frame:hover::before {
+        opacity: 1;
+      }
+
+      .card-frame-inner {
+        position: relative;
+        z-index: 1;
+        background-color: hsl(var(--card)); /* Match the frame's base color */
+        border-radius: 0.75rem; /* The actual card's radius */
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+    `}</style>
+    <div className="group w-full max-w-[300px] card-frame">
+      <div className="card-frame-inner">
         <Link href={`/workflows/${workflowId}`} className="block">
           <div className="relative h-40 w-full overflow-hidden">
             <Image
@@ -95,7 +138,8 @@ export function WorkflowCard({ workflow }: WorkflowCardProps) {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
+    </>
   );
 }
