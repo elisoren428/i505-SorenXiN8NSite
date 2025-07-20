@@ -45,16 +45,32 @@ export function WorkflowsClient({ allWorkflows }: WorkflowsClientProps) {
       filtered = filtered.filter((wf) => wf.complexity === filters.complexity);
     }
 
+    // Use a stable sort by adding a secondary sort key (id) to prevent hydration errors.
     switch (filters.sortBy) {
       case 'recent':
-        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        filtered.sort((a, b) => {
+          const dateA = new Date(b.createdAt).getTime();
+          const dateB = new Date(a.createdAt).getTime();
+          if (dateA !== dateB) return dateA - dateB;
+          return a.id.localeCompare(b.id);
+        });
         break;
       case 'alphabetical':
-        filtered.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        filtered.sort((a, b) => {
+          const nameA = a.name || '';
+          const nameB = b.name || '';
+          if (nameA !== nameB) return nameA.localeCompare(nameB);
+          return a.id.localeCompare(b.id);
+        });
         break;
       case 'complexity':
         const complexityOrder = { Beginner: 1, Intermediate: 2, Advanced: 3, Unknown: 4 };
-        filtered.sort((a, b) => (complexityOrder[a.complexity || 'Unknown'] || 4) - (complexityOrder[b.complexity || 'Unknown'] || 4));
+        filtered.sort((a, b) => {
+            const complexityA = complexityOrder[a.complexity || 'Unknown'] || 4;
+            const complexityB = complexityOrder[b.complexity || 'Unknown'] || 4;
+            if (complexityA !== complexityB) return complexityA - complexityB;
+            return a.id.localeCompare(b.id);
+        });
         break;
     }
     
@@ -70,7 +86,7 @@ export function WorkflowsClient({ allWorkflows }: WorkflowsClientProps) {
 
   const allCategories = useMemo(() => {
       const categories = new Set(allWorkflows.map(wf => wf.category || 'Other'));
-      return ['all', ...Array.from(categories)];
+      return ['all', ...Array.from(categories).sort()];
   }, [allWorkflows]);
 
   return (
