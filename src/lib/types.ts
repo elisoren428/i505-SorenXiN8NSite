@@ -20,6 +20,7 @@ export interface N8NWorkflow {
   tags: string[];
   complexity?: string;
   category?: string;
+  imageUrl?: string;
 }
 
 
