@@ -114,7 +114,7 @@ export function WorkflowDetailClient({ workflow: initialWorkflow }: WorkflowDeta
             <CardContent>
                  <Accordion type="single" collapsible className="w-full">
                     {workflow.nodes.map((node: N8NNode) => (
-                        <AccordionItem value={node.id} key={node.id}>
+                        <AccordionItem value={node.id} key={`${node.id}-${node.name}`}>
                             <AccordionTrigger>{node.name} ({node.type})</AccordionTrigger>
                             <AccordionContent>
                                 <div className="space-y-4">
