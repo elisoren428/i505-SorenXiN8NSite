@@ -23,20 +23,25 @@ export interface N8NWorkflow {
   imageUrl?: string;
 }
 
-
 export interface GithubContent {
-    name: string;
-    path: string;
-    sha: string;
-    size: number;
-    url: string;
-    html_url: string;
-    git_url: string;
-    download_url: string | null;
-    type: "file" | "dir";
-    _links: {
-      self: string;
-      git: string;
-      html: string;
-    };
-  }
+  name: string;
+  path: string;
+  sha: string;
+  size: number;
+  url: string;
+  html_url: string;
+  git_url: string;
+  download_url: string | null;
+  type: "file" | "dir";
+  _links: {
+    self: string;
+    git: string;
+    html: string;
+  };
+}
+
+export interface WorkflowStats {
+  workflowCount: number;
+  nodeCount: number;
+  integrationCount: number;
+}
