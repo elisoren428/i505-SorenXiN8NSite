@@ -60,13 +60,8 @@ export async function GET(
     });
 
     if (imageDataUri.startsWith('https://placehold.co')) {
-       const placeholderResponse = await fetch(imageDataUri);
-       return new NextResponse(placeholderResponse.body, {
-        headers: {
-          'Content-Type': 'image/png',
-          'Cache-Control': 'public, max-age=86400, must-revalidate', // Cache fallback for 1 day
-        },
-      });
+       // The AI generation failed and returned a placeholder, so we use our better fallbacks.
+       return getErrorFallbackImageResponse();
     }
 
     const base64Data = imageDataUri.split(',')[1];
